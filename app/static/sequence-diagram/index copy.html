@@ -1,0 +1,99 @@
+
+<script src="js/webfont.js"></script>
+<script src="js/snap.svg-min.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/sequence-diagram-snap-min.js"></script>
+
+<script src="js/svginnerhtml.min.js"></script>
+
+<script src="js/jquery.min.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/sequence-diagram-min.css">
+
+<!-- Needed for the text editor -->
+<script src="js/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<style>
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  #editor {
+      position: relative;
+      float: left;
+      width: 40%;
+      height: 300px;
+  }
+  #diagram {
+      position: relative;
+      float: left;
+      width: 59%;
+      height: 300px;
+      border: 1px solid black;
+  }
+</style>
+
+<div style="margin:0 auto">
+  <center>
+    <h2>序列图</h2>
+  </center>
+
+
+<div id="editor">Andrew->China: Says Hello
+Note right of China: China thinks\nabout it
+China-->Andrew: How are you?
+Andrew->>China: I am good thanks!
+</div>
+  <div id="diagram"></div>
+</div>
+
+<script src="js/ace.js" type="text/javascript" charset="utf-8"></script>
+<script>
+    var options = {
+      theme: 'simple',
+      scale: 1
+    };
+
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/crimson_editor");
+    editor.getSession().setMode("ace/mode/asciidoc");
+
+    var diagram = Diagram.parse(editor.getValue(), options)
+    diagram.drawSVG("diagram", {theme: 'simple'});
+
+    editor.getSession().on('change', _.debounce(on_change, 100));
+
+    function on_change() {
+      try {
+            var diagram = Diagram.parse(editor.getValue());
+
+            editor.getSession().setAnnotations([]);
+
+            // Clear out old diagram
+            $('#diagram').html('');
+
+            // Draw
+            diagram.drawSVG("diagram", options);
+
+          } catch(err) {
+            var annotation = {
+              type: "error", // also warning and information
+              column: 0,
+              row: 0,
+              text: err.message
+            };
+            if (err instanceof Diagram.ParseError) {
+              annotation.row    = err.loc.first_line - 1;
+              annotation.column = err.loc.first_column;
+            }
+            editor.getSession().setAnnotations([annotation]);
+            throw err;
+    }
+  }
+
+  
+  //var diagram = Diagram.parse("A->B: Message");
+  //diagram.drawSVG("diagram", options);
+  
+
+</script>
+
+

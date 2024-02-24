@@ -1,0 +1,50 @@
+@font-face {
+    font-family: 'source-sans-pro';
+    
+    
+    src: url({{ url_for('static',filename='snap/css/font/sourcesanspro-light-webfont.eot')}});
+    src: url({{ url_for('static',filename='snap/css/font/sourcesanspro-light-webfont.eot')}}'?#iefix') format('embedded-opentype'),
+         url( {{ url_for('static',filename='snap/css/font/sourcesanspro-light-webfont.woff')}}) format('woff'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-light-webfont.ttf')}}) format('truetype'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-light-webfont.svg#source_sans_prolight')}}) format('svg');
+    font-weight: 300;
+    font-style: normal;
+
+}
+
+
+@font-face {
+    font-family: 'source-sans-pro';
+    src: url({{ url_for('static',filename='snap/css/font/sourcesanspro-regular-webfont.eot')}});
+    src: url({{ url_for('static',filename='snap/css/font/sourcesanspro-regular-webfont.eot')}}'?#iefix') format('embedded-opentype'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-regular-webfont.woff')}}) format('woff'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-regular-webfont.ttf')}}) format('truetype'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-regular-webfont.svg')}}'#source_sans_proregular') format('svg');
+    font-weight: 400;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'source-sans-pro';
+    src: url({{ url_for('static',filename='snap/css/font/sourcesanspro-semibold-webfont.eot')}});
+    src: url({{ url_for('static',filename='snap/css/font/sourcesanspro-semibold-webfont.eot')}}'?#iefix') format('embedded-opentype'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-semibold-webfont.woff')}}) format('woff'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-semibold-webfont.ttf')}}) format('truetype'),
+         url({{ url_for('static',filename='snap/css/font/sourcesanspro-semibold-webfont.svg')}}'#source_sans_prosemibold') format('svg');
+    font-weight: 600;
+    font-style: normal;
+
+}
+
+@font-face {
+    font-family: 'source-code-pro';
+    src: url({{ url_for('static',filename='snap/css/font/sourcecodepro-regular-webfont.eot')}});
+    src: url({{ url_for('static',filename='snap/css/font/sourcecodepro-regular-webfont.eot')}}'?#iefix') format('embedded-opentype'),
+         url({{ url_for('static',filename='snap/css/font/sourcecodepro-regular-webfont.woff')}}) format('woff'),
+         url({{ url_for('static',filename='snap/css/font/sourcecodepro-regular-webfont.ttf')}}) format('truetype'),
+         url({{ url_for('static',filename='snap/css/font/sourcecodepro-regular-webfont.svg')}}'#source_code_proregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+
+}

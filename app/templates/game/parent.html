@@ -1,0 +1,30 @@
+<h1>Game Main Page</h1>
+
+<iframe
+  id='testIframe'
+  name='test'
+  src='{{ url_for("game_child")}}'
+  frameborder='0'
+  scrolling='no'
+  style="width:800px;height:600px;border: 1px solid black;">
+</iframe>
+
+
+<script type="text/javascript">
+// http://127.0.0.1:8001/parent.html
+// 父页面发送信息
+document.getElementById('testIframe').onload = function () {
+    test.window.postMessage('hello, child!', 'http://127.0.0.1:8002');
+}
+
+
+// http://127.0.0.1:8001/parent.html
+window.addEventListener('message', e => {
+    // 通过origin对消息进行过滤，避免遭到XSS攻击
+    if (e.origin === 'http://127.0.0.1:8002') {
+        console.log(e.origin) // 子页面所在的域
+        console.log(e.data)  // 子页面发送的消息, hello, parent!
+    }
+}, false);
+
+</script>

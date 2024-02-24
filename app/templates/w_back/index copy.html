@@ -1,0 +1,49 @@
+<html>
+<meta charset="utf-8">
+<head>
+<title>study board</title>
+
+
+
+<link href="{{ url_for('static',filename='layui/css/layui.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='layui/layui.js')}}" ></script>
+<style type=text/css>
+
+</style>
+</head>
+<body>
+    <ul class="layui-nav layui-bg-green" lay-filter="">
+        <li class="layui-nav-item"><a href="/">首页</a></li>
+        <li class="layui-nav-item"><a href="news">新闻</a></li>
+        <li class="layui-nav-item layui-this"><a href="task">每日任务</a></li>
+        <li class="layui-nav-item"><a href="yjs">小组学习</a></li>
+        <li class="layui-nav-item"><a href="forum">论坛</a></li>
+      </ul>
+      
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <center>
+            <div class="layui-card">
+                <div class="layui-card-header">各种数据
+                </div>
+                <div class="layui-card-body" style="">
+                    <img src="{{url_for('static',filename='image/study_board.png')}}" width='80%' height='80%'>
+                </div>
+            </div>
+        </center>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>

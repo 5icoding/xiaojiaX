@@ -1,0 +1,162 @@
+<html>
+<meta charset="UTF-8">
+<head>
+<title>CodeMirror Editor</title>
+
+<link href="{{ url_for('static',filename='codemirror/css/codemirror.min.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='codemirror/lib/codemirror.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/css/javascript.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/css/jquery.min.js')}}" ></script>
+
+<style type=text/css>
+    .CodeMirror {
+      float: left;
+      width: 50%;
+      border: 1px solid black;
+    }
+    iframe {
+      width: 49%;
+      float: left;
+      height: 300px;
+      border: 1px solid black;
+      border-left: 0px;
+    }
+ </style>
+</head>
+<body>
+
+<h1>ECA系统</h1>
+
+<hr/>
+<button id="start">开始</button>|<button id="stop">停止</button>|<button id="reset">重置</button>|<button id="clear">清空</button>|<button id="save">保存</button>
+<hr/>
+<lable>父编号：</lable><input type="text" id="parentId" placeholder="父编号">
+<lable>编号：</lable><input type="text" id="id" placeholder="编号">
+<lable>标题：</lable><input type="text" id="title" placeholder="请输入标题">
+<lable>描述：</lable><input type="text" id="description" placeholder="请输入描述" maxlength="50">
+<hr/>
+<div id="editor-wrap">
+<textarea id=code name=code>
+alert('ok!')
+App={}
+World={}
+Resources={}
+Entity={}
+
+Component={}
+
+Action={}
+
+Query={}
+
+Plugin={}
+
+State={}
+
+Stage={}
+
+Schedule={}
+</textarea>
+<iframe id=preview></iframe>
+</div>
+<div style="clear:both"></div>
+<hr/>
+<!--div 居中-->
+
+<div id="gameCanvas-wrap" style="margin:0 auto;display: flex; /* 创建 Flexbox 布局 */justify-content: center; /* 子项目水平居中对齐 */">
+  <canvas id="gameCanvas" width="1000" height="400" style="border:1px solid black;">
+</div>
+
+</canvas>
+</body>
+</html>
+<script>
+$(document).ready(function(){
+  var delay;
+  // Initialize CodeMirror editor with a nice html5 canvas demo.
+  var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+      mode: 'text/html',
+      styleActiveLine: true,    //高亮
+      lineNumbers: true,      //显示行号  
+      lineWrapping: true, //是否代码折叠
+      extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+      smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+      autoCloseTags: true,//自动闭合标签
+      autoCloseBrackets: true,//自动闭合括号
+      matchBrackets: true,//括号匹配
+  });
+  editor.on("change", function() {
+      clearTimeout(delay);
+      delay = setTimeout(updatePreview, 60000);
+  });
+
+  function updatePreview() {
+    var previewFrame = document.getElementById('preview');
+    var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+    preview.open();
+    preview.write(editor.getValue());
+    preview.close();
+    getConsole() 
+  }
+  setTimeout(updatePreview, 300);    
+
+  $("#start").click(function(){
+    alert('start!')
+  });
+  var url = 'http://localhost:5000/course/create'
+  $("#save").click(function(){
+    var title=$('#title').val()
+    var parentId = $('#parentId').val()
+    var description = $('#description').val()
+    var id = $('#id').val()
+    var code = editor.getValue()
+
+
+    var data = JSON.stringify({
+        id:id,
+        parentId:parentId,
+        title:title,
+        description:description,
+        code:code
+
+      })
+
+
+    alert('save!')
+    $.ajax({
+      type: 'post',
+      url: {{ url_for('course.course_create')|tojson }},
+      data: data,
+      contentType: 'application/json',
+      success: function(data){
+        alert('success!'+data)
+      },
+      error: function(xhr, status, error){
+        alert('error!'+error)
+      },
+      //dataType: "json"
+    });
+  });
+  $("#reset").click(function(){
+    alert('reset!')
+    $.ajax({
+      type: 'GET',
+      url: url,
+      success: function(data){
+        alert('success!'+data)
+      },
+      error: function(xhr, status, error){
+        alert('error!'+error)
+      },
+      dataType: "json"
+    })
+  });
+});
+</script>
+
+<script>
+
+    
+    
+</script>
+

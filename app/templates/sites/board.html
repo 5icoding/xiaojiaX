@@ -1,0 +1,136 @@
+{% extends 'site_base.html' %}
+
+{% block header %}
+<style>
+
+    #content {
+      font-family: Arial, sans-serif;
+
+      background-color: #f8f8f8;
+      text-align: center;
+      width:60%;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    h1, h2 {
+      color: #333;
+      text-align: center;
+    }
+
+    p {
+      color: #555;
+      text-align: center;
+    }
+
+    ol {
+      text-align: left;
+    }
+  </style>
+{% endblock %}
+
+
+{% block content %}
+
+<ul class="layui-nav layui-bg-green" lay-filter="">
+    <li class="layui-nav-item layui-logo" style="padding-right: 40px;font-size: 26;font-weight: 300;font-style: italic;">小+X</li>
+    <li class="layui-nav-item layui-this"><a href="#">首页</a></li>
+    <li class="layui-nav-item"><a href="course">课程管理</a></li>
+    <li class="layui-nav-item"><a href="record/list">学习记录管理</a></li>
+    <li class="layui-nav-item"><a href="">游戏化教学</a></li>
+    <li class="layui-nav-item"><a href="">AI推导教学</a></li>
+
+
+    <li class="layui-nav-item" style="float: right;"><a href="logout">注销</a></li>
+
+    <li class="layui-nav-item" style="float: right;"><a href="#">Test</a></li>
+  </ul>
+
+<div style="padding-top: 30px;">
+    <!-- <h1>Index</h1>
+    <button type="button" class="layui-btn layui-btn-danger">一个标准的按钮</button> -->
+
+    <h1>学生学习界面</h1>
+    <div style="padding-bottom: 30px;"></div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md2">
+          <div class="layui-panel">
+            <div style="padding: 30px;height: 300px;">
+                <h2>html知识学习</h2>
+                <p>超文本标记语言（英语：HyperText Markup Language，简称：HTML）是一种用于创建网页的标准标记语言。 
+                  您可以使用 HTML 来建立自己的 WEB 站点，HTML 运行在浏览器上，由浏览器来解析。 
+                  在本教程中，您将学习如何使用 HTML 来创建站点。 </p>
+                <hr/>
+                <a href="/fivestar" class="layui-btn layui-btn-primary">开始学习</a>
+  
+
+            
+            </div>
+          </div>   
+        </div>
+        <div class="layui-col-md2">
+          <div class="layui-panel">
+            <div style="padding: 30px;height: 300px;">
+                <h2>学习javascript</h2>
+
+                <a href="/course/js" class="layui-btn layui-btn-primary">JavaScript代码</a>
+
+  
+                </ol>
+            </div>
+          </div>   
+        </div>
+        <div class="layui-col-md2">
+            <div class="layui-panel">
+              <div style="padding: 30px; height: 300px;">
+
+                <p></p>
+            </div>
+            </div>   
+          </div>
+      </div>  
+      <div class="layui-col-md3">
+        <div class="layui-panel">
+          <div style="padding: 30px; height: 300px;">
+
+            <p>加入 xiaojiaX，让编程不再枯燥，而是一场充满挑战和乐趣的冒险！</p>
+        </div>
+        </div>   
+      </div>
+  </div>         
+</div>
+
+<script>
+  //JavaScript代码区域
+  layui.use(['element', 'layer'], function () {
+      var element = layui.element;
+      var layer = layui.layer;
+
+  });
+</script>
+
+{% endblock %}
+
+<div id="HomeFooter" class="footer" style="padding-top: 0px;background-color: dimgray;">
+  <div class="footer-web">
+      <a href="https://blog.csdn.net/SuperYang_?spm=1001.2101.3001.5343">我的CSDN</a>
+      <a href="https://github.com/ychaoyeah">我的GitHub</a>
+  </div>
+  <div id="FootDeclar" class="layui-row layui-col-space10">
+      <div id="FootDeclar_1" class="layui-col-md1">
+          <img src="images/WechatQRCode.jpg" width="80px">
+      </div>
+      <div id="FootDeclar_2" class="layui-col-md7">
+          <p class="footer-p">本站部分文章、资源来自互联网，版权归原作者及网站所有</p>
+          <p class="footer-p">如果侵犯了您的权利，请及时致信告知我站</p>
+      </div>
+      <div id="FootDeclar_3" class="layui-col-md4">
+          <p class="footer-p">通信地址：安徽省马鞍山市含山县环峰镇</p>         
+          <p class="footer-p">Copyright&nbsp;©&nbsp;SuperYang(ychaoyeah@163.com)</p>
+      </div>
+  </div> 
+</div>

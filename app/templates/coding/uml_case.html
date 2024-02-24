@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Example of a simple class diagram using the jsUML2 library</title>
+
+    
+    <link href="{{ url_for('static',filename='uml/UDStyle.css')}}" rel="stylesheet" />
+
+    <script src="{{ url_for('static',filename='uml/UDCore.js')}}" ></script>
+    <script src="{{ url_for('static',filename='uml/UDModules.js')}}" ></script>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+    
+    
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/xml/xml.js></script>
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.js></script>
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/css/css.js></script>
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.js></script>
+    
+    <style type=text/css>
+        .CodeMirror {
+          float: left;
+          width: 50%;
+          height: 500px;
+          border: 1px solid black;
+        }
+        #classDiagram-wrap {
+          width: 49%;
+          float: left;
+          height: 500px;
+          border: 1px solid black;
+          border-left: 0px;
+        }
+      </style>
+
+    <script type="text/javascript">
+        window.onload = function () {
+
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Example of a simple class diagram using the jsUML2 library</h1>
+    <button id=run onclick="run()">运行</button>
+    <br/>
+<textarea id=code name=code>
+var usecaseDiagram = new UMLUseCaseDiagram({ id: 'useCaseDiagram', width: 380, height: 300 });
+
+// Creating UML Actors
+var customerActor = new UMLActor({ x: 50, y: 50 });
+usecaseDiagram.addElement(customerActor);
+customerActor.setName("Customer");
+
+var cookActor = new UMLActor({ x: 50, y: 170 });
+usecaseDiagram.addElement(cookActor);
+cookActor.setName("Cooker");
+
+// Creating the UML Subsystem
+var subsystem = new UMLSubSystem({ x: 155, y: 40 });
+subsystem.setHeight(250);
+subsystem.setName('Restaurant');
+usecaseDiagram.addElement(subsystem);
+
+// Creating the UML use cases
+var useCasePay = new UMLUseCase({ x: 170, y: 80 });
+usecaseDiagram.addElement(useCasePay);
+var useCaseEat = new UMLUseCase({ x: 170, y: 130 });
+usecaseDiagram.addElement(useCaseEat);
+var useCaseServe = new UMLUseCase({ x: 170, y: 180 });
+usecaseDiagram.addElement(useCaseServe);
+var useCaseCooking = new UMLUseCase({ x: 170, y: 230 });
+usecaseDiagram.addElement(useCaseCooking);
+
+// Creating the UML communications
+var communication1 = new UMLCommunication({ b: customerActor, a: useCasePay });
+usecaseDiagram.addElement(communication1);
+var communication2 = new UMLCommunication({ b: customerActor, a: useCaseEat });
+usecaseDiagram.addElement(communication2);
+var communication3 = new UMLCommunication({ b: cookActor, a: useCaseServe });
+usecaseDiagram.addElement(communication3);
+var communication4 = new UMLCommunication({ b: cookActor, a: useCaseCooking });
+usecaseDiagram.addElement(communication4);
+
+// Adding the name of use cases
+useCasePay.setName('Pay for food');
+useCasePay.notifyChange();
+
+useCaseEat.setName('Eat food');
+useCaseEat.notifyChange();
+
+useCaseServe.setName('Serve food');
+useCaseServe.notifyChange();
+
+useCaseCooking.setName('Cook');
+useCaseCooking.notifyChange();
+
+// Drawing the diagram 
+usecaseDiagram.draw();
+
+// This diagram is editable
+usecaseDiagram.interaction(true);
+</textarea>
+<div id="classDiagram-wrap">
+   <div id="useCaseDiagram"></div>
+</div>
+</body>
+<script>
+      var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode: 'js',
+        styleActiveLine: true,    //高亮
+        lineNumbers: true,      //显示行号  
+        lineWrapping: true, //是否代码折叠
+        extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+        smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+        autoCloseTags: true,//自动闭合标签
+        autoCloseBrackets: true,//自动闭合括号
+        matchBrackets: true,//括号匹配
+      });
+      function run(){
+        eval(editor.getValue())
+      }
+
+</script>
+</html>

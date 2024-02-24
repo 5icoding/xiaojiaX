@@ -1,0 +1,120 @@
+{% extends 'study_base.html' %}
+
+{% block header %}
+
+
+
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" src="../../static/brython/3.12.0/brython.min.js"> </script>
+<script type="text/javascript" src="../../static/brython/3.12.0/brython_stdlib.js"> </script>
+</script>
+
+<script id="python_script" type="text/python">
+import sys
+import traceback
+from browser import document, timer, alert
+
+def _write(*args):
+    document["print-output"].html += "".join(args)
+def __write(*args):
+    document["print-output"].html += '<span class="error">' + "".join(args) + "</span>"
+
+sys.stdout.write = _write
+sys.stderr.write = __write
+
+def clear_print():
+    document["print-output"].html = ""
+
+
+def exec_code(ev):
+    clear_print()
+    _code= document["code"].value
+    #_code = 'print(1)'
+    #alert(_code)
+    try:
+        exec(_code)
+    except:
+        try:
+            traceback.print_exc()
+        except:
+            print("could not print traceback")
+
+
+document["run"].bind("click", exec_code)
+document["clear"].bind("click", clear_print)
+
+#timer.set_timeout(exec_code(ev), 1)
+
+</script>
+
+<style type=text/css>
+    .CodeMirror {
+      float: left;
+      width: 50%;
+      border: 1px solid black;
+      font-size: 18px;
+    }
+    #print-output {
+      width: 49%;
+      float: left;
+      height: 300px;
+      border: 1px solid black;
+      border-left: 0px;
+    }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="layui-container">
+    <div style="padding-top: 30px;">
+<textarea id=code name=code>
+print('hello python!')
+</textarea>
+        <div id="print-output" style="background-color: rgb(246, 233, 233)">
+    </div>
+    <div id="clear" style="clear:both;"></div>
+    <button id=run>执行</button>
+    <button id=clear>清空</button>
+    
+    </div>
+</div>
+    <script>
+      var editor = null;
+      
+      // Initialize CodeMirror editor with a nice html5 canvas demo.
+      var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode: 'python',
+        styleActiveLine: true,    //高亮
+        lineNumbers: true,      //显示行号  
+        lineWrapping: true, //是否代码折叠
+        extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+        smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+        autoCloseTags: true,//自动闭合标签
+        autoCloseBrackets: true,//自动闭合括号
+        matchBrackets: true,//括号匹配
+      });
+      //监听Code Mirror的更改事件
+      editor.on("change", function(cm,change) {
+        document.getElementById('code').value = cm.getValue();
+      });
+
+    </script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+      var element = layui.element;
+      
+      //…
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,327 @@
+{% extends 'disign_base.html' %}
+
+{% block header %}
+<script src="{{ url_for('static',filename='snap/js/snap.svg-min.js')}}" ></script>
+
+<style type=text/css>
+  body { margin: 0; }
+  .CodeMirror {
+    width: 100%;
+    border: 1px solid black;
+    height:368px;
+    font-size: 18px;
+  }
+
+
+
+  #print-output {
+    width: 100%;
+    float: left;
+    height:363px;
+    margin-left: 3px;
+    border: 1px solid black;
+    border-left: 0px;
+    font-size: 18px;
+    padding-top: 5px;
+    padding-left: 5px;
+  }
+
+  /* #svg {
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        border: solid 2px #ccc;
+        width: 98%;
+        height: 75px;
+        float: left;
+        margin-right: 10px;
+        font: 1em source-sans-pro, Source Sans Pro, Helvetica, sans-serif;
+    } */
+
+</style>
+
+<script id="python_script" type="text/python">
+import sys
+import traceback
+from browser import document, timer, alert, ajax
+
+def _write(*args):
+    document["print-output"].html += "".join(args)
+def __write(*args):
+    document["print-output"].html += '<span class="error">' + "".join(args) + "</span>"
+
+sys.stdout.write = _write
+sys.stderr.write = __write
+
+def clear_print(ev):
+    #alert("clear")
+    document["print-output"].html = ""
+  
+  
+def exec_code(ev):
+    clear_print(ev)
+    _code= document["code"].value
+    #_code = 'print(1)'
+    #alert(_code)
+    try:
+        exec(_code)
+    except:
+        try:
+            traceback.print_exc()
+        except:
+            print("could not print traceback")
+  
+document["run"].bind("click", exec_code)
+document["clear"].bind("click", clear_print)
+
+#timer.set_timeout(exec_code(ev), 1)
+
+
+</script>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="layui-row" style="height:140px;width:80%;margin: auto;margin-top: 10px;border: 1px solid green;">
+  <!-- <svg id="svg" width=850 height=35></svg> -->
+  
+    <div class="layui-col-md4" style='padding-top: 20px;'>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">等级编号</label>
+                <div class="layui-input-block">
+                  <input type="text" id="levelId" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-col-md4" style='margin-top: 20px;'>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">课程编号</label>
+                <div class="layui-input-block">
+                <input type="text" id="courseId" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item" border: 1px solid green;>
+                <label class="layui-form-label">单位编号</label>
+                <div class="layui-input-block">
+                <input type="text" id="sequence" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+      </form>
+    </div>
+    <div class="layui-col-md4" style='margin-top: 20px;'>
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">标题</label>
+                    <div class="layui-input-block">
+                    <input type="text" id="title"  id="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+            
+            <div class="layui-form-item">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">说明</label>
+                    <div class="layui-input-block">
+                    <input type="text" id="description"  id="title" required  lay-verify="required" placeholder="请输入说明" autocomplete="off" class="layui-input">
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+
+
+
+
+</div>
+
+<div class="layui-row" style="width:80%;margin: auto;margin-top: 10px;">
+  <div style="float:right;">
+    <button class="layui-btn layui-btn-primary" id="run">运行</button>
+    <button class="layui-btn layui-btn-primary" id="clear">清空</button>
+    
+    <button class="layui-btn layui-btn-primary" id="save">保存</button>
+  </div>
+</div>
+
+<div class="layui-row" style="width:80%;margin: auto;">
+    <div class="layui-col-md4">
+        <div class="grid-demo grid-demo-bg1 layui-bg-green">
+            <div class="layui-tab" lay-filter="test-hash">
+                <ul class="layui-tab-title">
+                  <li class="layui-this" lay-id="11">学习目标</li>
+                  <li lay-id="22">内容讲解</li>
+                  <li lay-id="33">代码示范</li>
+                  <li lay-id="44">课后练习</li>
+
+                </ul>
+                <div class="layui-tab-content" style="height:300px;">
+                  <div class="layui-tab-item layui-show">
+                      <textarea id="target" class="layui-textarea" style="margin-left:20px;width:90%;height: 300px;"></textarea>
+                  </div>
+
+                  <div class="layui-tab-item">
+                      <textarea id="content" class="layui-textarea" style="margin-left:20px;width:90%;height: 300px;"></textarea>
+                  </div>
+                  <div class="layui-tab-item">
+                      <textarea id="codeExample" class="layui-textarea" style="margin-left:20px;width:90%;height: 300px;"></textarea>
+                  </div>
+                  <div class="layui-tab-item">
+                      <textarea id="exercise" class="layui-textarea" style="margin-left:20px;width:90%;height: 300px;"></textarea>
+                  </div>
+
+                </div>
+              </div>
+
+        </div>
+    </div>
+
+    <div class="layui-col-md4">
+        <div class="grid-demo" style="padding-top: 10px">
+<textarea id=code name=code>
+print('hello python!')
+</textarea>
+        </div>
+    </div>
+
+    <div class="layui-col-md4">
+        <div class="grid-demo grid-demo-bg1" style="padding-top: 10px">
+          <div id="print-output" style="background-color: rgb(246, 233, 233)">
+        </div>
+    </div>
+
+  </div>
+</div>
+<script>
+var editor = null;
+
+// Initialize CodeMirror editor with a nice html5 canvas demo.
+var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+  mode: 'python',
+  styleActiveLine: true,    //高亮
+  lineNumbers: true,      //显示行号  
+  lineWrapping: true, //是否代码折叠
+  extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+  smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+  autoCloseTags: true,//自动闭合标签
+  autoCloseBrackets: true,//自动闭合括号
+  matchBrackets: true,//括号匹配
+});
+//监听Code Mirror的更改事件
+editor.on("change", function(cm,change) {
+  document.getElementById('code').value = cm.getValue();
+});
+
+</script>
+  
+
+<script>
+layui.use(function(){
+  var element = layui.element;
+  
+//   // hash 地址定位
+//   var hashName = 'tabid'; // hash 名称
+//   var layid = location.hash.replace(new RegExp('^#'+ hashName + '='), ''); // 获取 lay-id 值
+    
+//   // 初始切换
+//   element.tabChange('test-hash', layid);
+//   // 切换事件
+//   element.on('tab(test-hash)', function(obj){
+//     location.hash = hashName +'='+ this.getAttribute('lay-id');
+//     alert(this.getAttribute('lay-id'))
+//   });
+});
+</script>
+
+<script>
+$(document).ready(function() {
+    $("#save").click(function() {
+
+      alert($("#levelId").val());
+        var data = JSON.stringify({
+            levelId:$("#levelId").val(),
+            courseId:$("#courseId").val(),
+            title:$("#title").val(),
+            sequence:$("#sequence").val(),
+            content:$("#content").val(),
+            codeExample:$("#codeExample").val(),
+            target:$("#target").val(),
+            exercise:$("#exercise").val(),
+            exerciseCode:editor.getValue(),
+            description:$("#description").val()
+      })
+    alert(data)
+
+
+
+
+
+        $.ajax({
+            type: "POST",
+            url : {{url_for('design.python_course')|tojson}},
+            data: data,
+            contentType: 'application/json',
+            success: function(response) {
+                // if(data == "post") {
+                    alert("保存成功->"+response.result);
+                // } else {
+                //     alert("保存失败");
+                // }
+            }
+
+        });
+    });
+});
+</script>
+<script>
+// window.onload = function () {
+//   var s = Snap("#svg");
+//   var count = 3,current_count = 1;
+
+//   for (var i = 1; i <= count; i++) {
+//     s.text(90 * i - 55, 49, i).attr({
+//         font: "25px source-sans-pro, Source Sans Pro, Helvetica, sans-serif",
+//         textAnchor: "middle"
+//     });
+//     s.circle(90 * i - 55, 40, 20).attr({
+//       fillOpacity: 0,
+//       stroke: "#333",
+//       strokeWidth: 2
+//     })
+              
+//   }
+//   function chooser(i){
+//     s.circle(90 * i - 55, 40, 20).attr({
+//       fill: "#bada55",
+//       stroke: "#000",
+//       strokeWidth: 5
+//     })
+//     s.text(90 * i - 55, 49, i).attr({
+//         font: "25px source-sans-pro, Source Sans Pro, Helvetica, sans-serif",
+//         textAnchor: "middle"
+//     });
+//   }
+//   chooser(current_count)
+
+//   $("#next_unit").click(function(){
+//     current_count++;
+//     if(current_count < (count+1)){
+//       alert(current_count)
+//       chooser(current_count)
+//     }
+//     if(current_count > (count+1)){
+//       alert("恭喜你，通关了！")
+//       current_count = 1;
+//       return;
+//     }
+
+
+//   });
+
+// }
+</script>
+{% endblock %}

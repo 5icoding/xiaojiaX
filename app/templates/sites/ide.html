@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<link href="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+
+
+<script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/xml/xml.js></script>
+<script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.js></script>
+<script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/css/css.js></script>
+<script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.js></script>
+
+<style type=text/css>
+    .CodeMirror {
+      float: left;
+      width: 50%;
+      border: 1px solid black;
+    }
+    iframe {
+      width: 49%;
+      float: left;
+      height: 300px;
+      border: 1px solid black;
+      border-left: 0px;
+    }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<ul class="layui-nav layui-bg-green" lay-filter="">
+    <li class="layui-nav-item"><a href="/">首页</a></li>
+    <li class="layui-nav-item layui-this"><a href="#">在线编辑器</a></li>
+    <li class="layui-nav-item"><a href="/news">新闻</a></li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">解决方案</a>
+      <dl class="layui-nav-child"> <!-- 二级菜单 -->
+        <dd><a href="">移动模块</a></dd>
+        <dd><a href="">后台模版</a></dd>
+        <dd><a href="">电商平台</a></dd>
+      </dl>
+    </li>
+    <li class="layui-nav-item"><a href="">社区</a></li>
+  </ul>
+
+
+
+
+<div class="layui-container">
+    <div style="padding-top: 30px;">
+        <textarea id=code name=code>
+    <!doctype html>
+    <html>
+    <head>
+    <meta charset=utf-8>
+    <title>HTML5 canvas demo</title>
+    <style>p {font-family: monospace;}</style>
+    </head>
+    <body>
+    <p>Canvas pane goes here:</p>
+    <canvas id=pane width=300 height=200></canvas>
+    <script>
+        var canvas = document.getElementById('pane');
+        var context = canvas.getContext('2d');
+
+        context.fillStyle = 'rgb(250,0,0)';
+        context.fillRect(10, 10, 55, 50);
+
+        context.fillStyle = 'rgba(0, 0, 250, 0.5)';
+        context.fillRect(30, 30, 55, 50);
+    </script>
+    </body>
+    </html>
+        </textarea>
+        <iframe id=preview></iframe>
+    </div>
+</div>
+    <script>
+      var delay;
+      // Initialize CodeMirror editor with a nice html5 canvas demo.
+      var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode: 'text/html',
+        styleActiveLine: true,    //高亮
+        lineNumbers: true,      //显示行号  
+        lineWrapping: true, //是否代码折叠
+        extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+        smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+        autoCloseTags: true,//自动闭合标签
+        autoCloseBrackets: true,//自动闭合括号
+        matchBrackets: true,//括号匹配
+      });
+      editor.on("change", function() {
+        clearTimeout(delay);
+        delay = setTimeout(updatePreview, 300);
+      });
+      
+      function updatePreview() {
+        var previewFrame = document.getElementById('preview');
+        var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+        preview.open();
+        preview.write(editor.getValue());
+        preview.close();
+      }
+      setTimeout(updatePreview, 300);
+    </script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+      var element = layui.element;
+      
+      //…
+    });
+</script>
+{% endblock %}

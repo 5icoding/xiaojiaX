@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+<link href="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <!-- 引入 CodeMirror 样式和脚本 -->
+
+
+<!-- <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/rust/rust.min.js></script>、 -->
+
+<script src="{{ url_for('static',filename='rust.js')}}" ></script>
+
+<style type=text/css>
+    .CodeMirror {
+      float: left;
+      width: 50%;
+      border: 1px solid black;
+    }
+    iframe {
+      width: 49%;
+      float: left;
+      height: 300px;
+      border: 1px solid black;
+      border-left: 0px;
+    }
+  </style>
+
+{% endblock %}
+
+{% block content %}
+
+<div class="layui-container">
+    <div style="padding-top: 30px;">
+<textarea id=code name=code>
+fn main() {
+  println!("Hello, world!");
+}
+</textarea>
+    <iframe id=preview></iframe>
+    </div>
+    <div id="clear" style="clear:both;"></div>
+    <div id="log" style="margin-top: 5px;width: 99%;background-color: rgb(246, 233, 233);height: 50px;">
+    <button id="run-button" class="layui-btn layui-btn-normal">运行</button>
+    </div>
+</div>
+    <script>
+$(document).ready(function() {
+      // Initialize CodeMirror editor with a nice html5 canvas demo.
+      var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode: 'rust',  // 设置模式为 Rust
+        styleActiveLine: true,    //高亮
+        lineNumbers: true,      //显示行号  
+        lineWrapping: true, //是否代码折叠
+        extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+        smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+        autoCloseTags: true,//自动闭合标签
+        autoCloseBrackets: true,//自动闭合括号
+        matchBrackets: true,//括号匹配
+      });
+      editor.on("change", function() {
+
+      });
+      // 绑定按钮点击事件
+      $('#run-button').on('click', function() {
+          // 获取编辑器的值
+          var editorValue = editor.getValue();
+          alert(editorValue)
+
+          // 使用 jQuery 的 AJAX 方法发送 POST 请求到服务器
+          $.ajax({
+              type: 'POST',
+              url: '/course/rust',  // 替换成你的服务器端点
+              data: { code: editorValue },
+              success: function(response) {
+                  alert('Server response:'+ response);
+                  console.log("服务器返回的结果：" + response);
+              },
+              error: function(error) {
+                  console.error('Error:', error);
+              }
+          });
+      });
+});
+
+
+      
+
+
+
+    </script>
+<script>
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作
+    layui.use('element', function(){
+      var element = layui.element;
+      
+      //…
+    });
+</script>
+{% endblock %}

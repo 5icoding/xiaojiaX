@@ -1,0 +1,40 @@
+
+<button click="send()">Send Son Page</button>
+
+<script>
+// document.querySelector('iframe').contentWindow.postMessage({
+//     type: 1,
+//     msg: 'postMessage TEST parent -> son'
+// })
+
+
+
+window.onmessage = function (e) {
+    // e.data --接收到的字符串。
+    // e.source ---发送窗口所在的域。
+    // e.orgin  --发送窗口的代理对象。
+    if (e.data.type === 2) {
+        console.log(e.data, '-------')
+    }
+}
+
+function send() {
+    var send = document.getElementById("child").contentWindow;
+    alert(send)
+
+    send.postMessage(
+        {
+            type: 2,
+            msg: 'postMessage TEST son -> parent'
+        }
+    )
+}
+ 
+</script>
+
+<iframe id="child" src="son.html"></iframe>
+ 
+
+ 
+
+

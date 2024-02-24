@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>五星教学法</title>
+		<script src="https://cdn.jsdelivr.net/npm/eo-typewriterjs@latest/dist/typewriter.js"></script>
+		
+		<link rel="stylesheet" href="{{ url_for('static',filename='steps/ystep.css')}}">
+		<link rel="stylesheet" type="text/css" href="https://s1.pstatp.com/cdn/expire-1-M/font-awesome/4.6.0/css/font-awesome.min.css">
+	</head>
+	<style type="text/css">
+		.stepPage {
+			height: 400px;
+            width:80%;
+			margin: 0 auto;
+			border: 1px solid #000;
+		}
+		h1, h2 {
+			color: #333;
+			text-align: center;
+		}
+	</style>
+
+	<body>
+
+
+
+		<h1>五星教学法</h1>
+
+		<!-- 菜单及分页容器-->
+		<div class="stepCont stepCont1 ">
+			<!-- 菜单导航显示-->
+			<div class='ystep-container ystep-lg ystep-blue'></div>
+			<!-- 分页容器-->
+			<div class="pageCont">
+				<div id="page1" class="stepPage">
+					<p>教学有没有向学习者表明在完成一个单元或一节课后他们将能完成什么样的任务或将会解决什么样的问题？</p>
+					<p>div的英文全称就是division，有时候我们也习惯叫图层。在html中，div是一个标签。有很多属性，正式这些属性组成才会形成美观的板块。</p>
+                    <p>&lt;div&gt;&lt;/div&gt;</p>
+				</div>
+				<div id="page2" class="stepPage">
+					<h1>这是第二个页面</h1>
+					<p>超文本标记语言（英语：HyperText Markup Language，简称：HTML）是一种用于创建网页的标准标记语言。
+						您可以使用 HTML 来建立自己的 WEB 站点，HTML 运行在浏览器上，由浏览器来解析。</p>
+                    <p>&lt;html&gt;&lt;/html&gt;</p>
+				</div>
+				<div id="page3" class="stepPage">
+					<h1>这是第三个页面</h1>
+					<div id="target" style="width:300px;height:200px;background-color: dimgray;"></div>
+					<button id="test_click">click</button>
+				</div>
+				<div id="page4" class="stepPage">
+					<h1>这是第四个页面</h1>
+					<style>
+					#editor-container {
+						display: flex;
+					}
+			
+					#line-numbers {
+						width: 50px;
+						padding: 10px;
+						background-color: #f0f0f0;
+						border-right: 1px solid #ccc;
+						box-sizing: border-box;
+						height:200px;
+					}
+			
+					#code-editor {
+						flex: 1;
+						padding: 10px;
+						box-sizing: border-box;
+						background-color:lightgreen
+					}
+				</style>
+					<div id="editor-container">
+						<div id="line-numbers"></div>
+						<div id="code-editor" contenteditable="true"></div>
+						
+					</div>
+					<button>保存</button>
+					
+
+
+				</div>
+				<div id="page5" class="stepPage">
+					<h1>写3个div标签，内容shi是A B C</h1>
+					<h2>编辑器</h2>
+					<button>保存</button>
+				</div>
+			</div>
+		</div>
+
+		<div style="position:relative;padding-left:150px";padding-top:-50px;>
+			<button id="next_unit">下一课</button>
+		</div>
+
+	</body>
+
+</html>
+
+<script type="text/javascript" src="{{ url_for('static',filename='steps/jquery.min.js')}}"></script>
+<script type="text/javascript" src="{{ url_for('static',filename='steps/setStep.js')}}"></script>
+<script>	
+var step1 = new SetStep({
+    skin:1,
+    content: '.stepCont1',
+    showBtn: false,
+    descriptionHeader: ['聚焦解决问题', '激活原有知识', '展示论证新知', '尝试应用练习', '融会贯通掌握'],
+    description: ['教学内容呈现', '激活先前的相关知识和经验', '展示论证（实际举例）', '尝试应用或练习', '知识和技能应用（迁移）'],
+    showBtn:true,
+})
+$(document).ready(function(){
+	$('#next_unit').click(function(){
+		alert("下一课程，从服务器抓取课程信息，并更新最新课程信息session中")
+	});
+	var tw = new Typewriter("#target",{tick:500,delay:1000,sound:{enabled:true}});
+	$('#test_click').click(function(){
+		
+		$('#test_click').prop('disabled', true);
+		setTimeout(function() {
+			// 在异步操作完成后启用按钮
+			$('#test_click').prop('disabled', false);
+			//$('#test_click').show();
+		}, 20000);
+        tw.type("<div>Hello World!</div>").start();
+		
+
+		// 禁用按钮
+		//$('#test_click').prop('disabled', true);
+
+		// 隐藏按钮
+		//$('#test_click').hide();
+
+		// 模拟一些异步操作，例如Ajax请求
+		 // 这里的2000毫秒仅作示例，你需要根据实际情况调整
+        
+		// 禁用点击
+		//$(this).off('click');
+    });
+	var $lineNumbers = $('#line-numbers');
+	var $codeEditor = $('#code-editor');
+
+	var lines = 1
+	$lineNumbers.append('<div>' + lines + '</div>');
+
+	// Add line numbers
+	function updateLineNumbers() {
+		//var lines = $codeEditor.text().split('\n').length;
+		//alert($codeEditor.text()+lines)
+		var content = $codeEditor.html();
+        var line = content.split('<br>').length;
+        if (line > 1){
+			$lineNumbers.empty();
+			lines ++ ;
+			for (var i = 1; i <= lines; i++) {
+			$lineNumbers.append('<div>' + i + '</div>');
+		}
+		} 
+		// $lineNumbers.empty();
+		// for (var i = 1; i <= lines; i++) {
+		// 	$lineNumbers.append('<div>' + i + '</div>');
+		// }
+		// alert($codeEditor.html()+lines)
+	}
+
+	// Update line numbers on content change
+	$codeEditor.on('input', function() {
+		updateLineNumbers();
+	});
+
+	// Update line numbers on scroll
+	$codeEditor.on('scroll', function() {
+		$lineNumbers.scrollTop($codeEditor.scrollTop());
+	});
+
+	// Initial line numbers
+	updateLineNumbers();
+});
+</script>

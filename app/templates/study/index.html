@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% block header %}
+<style type=text/css>
+</style>
+{% endblock %}
+
+
+
+{% block content %}
+
+<div class="layui-container">
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <h1>欢迎使用</h1>
+            <p>{{  g.user.id }}{{g.user.role}}{{g.user.username}}</p>
+        </div>
+    </div>
+</div>
+
+    <div class="layui-row">
+        <div class="layui-col-md12">
+            <center>
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <h2>各种数据</h2>
+                </div>
+                <div class="layui-card-body" style="">
+                    <img src="{{url_for('static',filename='image/study_board.png')}}" width='80%' height='80%'>
+                </div>
+            </div>
+        </center>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+

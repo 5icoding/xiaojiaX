@@ -1,0 +1,130 @@
+
+<script src="js/webfont.js"></script>
+<script src="js/snap.svg-min.js"></script>
+<script src="js/underscore-min.js"></script>
+<script src="js/sequence-diagram-snap-min.js"></script>
+
+<script src="js/svginnerhtml.min.js"></script>
+
+<script src="js/jquery.min.js"></script>
+
+<link rel="stylesheet" href="css/style.css">
+<link rel="stylesheet" href="css/sequence-diagram-min.css">
+
+<!-- Needed for the text editor -->
+<script src="js/ace.js" type="text/javascript" charset="utf-8"></script>
+
+<style>
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  #editor {
+      position: relative;
+      float: left;
+      width: 40%;
+      height: 540px;
+  }
+  #diagram {
+      position: relative;
+      float: left;
+      width: 59%;
+      height: 540px;
+      border: 1px solid black;
+  }
+</style>
+
+<div style="margin:0 auto">
+  <center>
+    <p>序列图</p>
+  </center>
+
+
+<div id="editor">用户->浏览器: 填写地址
+浏览器->服务器: 发送请求
+服务器->>路由: 调用控制器
+路由->>模型: 使用模型
+路由->>数据帮助类: 调用数据帮助类
+数据帮助类->>数据库: 获取数据
+
+
+路由->>视图: 调用视图
+
+模型->>数据库: 对应关系
+
+路由-->服务器: 返回结果
+服务器->>浏览器: 返回结果
+浏览器->>用户: 显示结果
+
+</div>
+  <div id="diagram"></div>
+</div>
+
+<p>代码编辑</p>
+<div style="height:300px">
+  <div style="float:left;width:20%;border:1px solid green;height:300px">
+    <img src="../../static/sequence-diagram/tree.png"/>
+  </div>
+  <div style="float:left;width:35%;border:1px solid green">
+    <textarea cols="70" rows="20"></textarea>
+  </div>
+  <div style="float:left;width:44%;border:1px solid green;height:300px">
+    <label>网址</label>
+    <input type="text" id="URL" />
+    <button onclick="getData()">获取数据</button>
+    <br />
+    <iframe id="net" width="98%" height="90%" ></iframe>
+  
+  </div>
+</div>
+<div id="editor2"></div>
+<script src="js/ace.js" type="text/javascript" charset="utf-8" style="border: 1px solid black;"></script>
+<script>
+    var options = {
+      theme: 'simple',
+      scale: 1
+    };
+
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/crimson_editor");
+    editor.getSession().setMode("ace/mode/asciidoc");
+
+
+    var diagram = Diagram.parse(editor.getValue(), options)
+    diagram.drawSVG("diagram", {theme: 'simple'});
+
+    editor.getSession().on('change', _.debounce(on_change, 100));
+
+    function on_change() {
+      try {
+            var diagram = Diagram.parse(editor.getValue());
+
+            editor.getSession().setAnnotations([]);
+
+            // Clear out old diagram
+            $('#diagram').html('');
+
+            // Draw
+            diagram.drawSVG("diagram", options);
+
+          } catch(err) {
+            var annotation = {
+              type: "error", // also warning and information
+              column: 0,
+              row: 0,
+              text: err.message
+            };
+            if (err instanceof Diagram.ParseError) {
+              annotation.row    = err.loc.first_line - 1;
+              annotation.column = err.loc.first_column;
+            }
+            editor.getSession().setAnnotations([annotation]);
+            throw err;
+    }
+  }
+
+  
+  //var diagram = Diagram.parse("A->B: Message");
+  //diagram.drawSVG("diagram", options);
+  
+
+</script>
+
+

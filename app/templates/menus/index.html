@@ -1,0 +1,195 @@
+
+  <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+  <link href="http://unpkg.com/layui@2.9.3/dist/css/layui.css" rel="stylesheet">
+
+<style>
+.ztree-wrap {width:160px; height:460px; overflow:auto;}
+  </style>
+  <link href="{{ url_for('static',filename='zTree/css/zTreeStyle/zTreeStyle.css')}}" rel="stylesheet" />
+  <script src="{{ url_for('static',filename='zTree/js/jquery-1.4.4.min.js')}}" ></script>
+  <script src="{{ url_for('static',filename='zTree/js/jquery.ztree.core.js')}}" ></script>
+
+
+	<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+
+		var zNodes =[
+			{ id:1, pId:0, name:"父节点1 - 展开", open:true},
+			{ id:11, pId:1, name:"父节点11 - 折叠"},
+			{ id:111, pId:11, name:"叶子节点111"},
+			{ id:112, pId:11, name:"叶子节点112"},
+			{ id:113, pId:11, name:"叶子节点113"},
+			{ id:114, pId:11, name:"叶子节点114"},
+			{ id:12, pId:1, name:"父节点12 - 折叠"},
+			{ id:121, pId:12, name:"叶子节点121"},
+			{ id:122, pId:12, name:"叶子节点122"},
+			{ id:123, pId:12, name:"叶子节点123"},
+			{ id:124, pId:12, name:"叶子节点124"},
+			{ id:13, pId:1, name:"父节点13 - 没有子节点",  open:true},
+			{ id:2, pId:0, name:"父节点2 - 折叠"},
+			{ id:21, pId:2, name:"父节点21 - 展开", open:true},
+			{ id:211, pId:21, name:"叶子节点211"},
+			{ id:212, pId:21, name:"叶子节点212"},
+			{ id:213, pId:21, name:"叶子节点213"},
+			{ id:214, pId:21, name:"叶子节点214"},
+			{ id:22, pId:2, name:"父节点22 - 折叠"},
+			{ id:221, pId:22, name:"叶子节点221"},
+			{ id:222, pId:22, name:"叶子节点222"},
+			{ id:223, pId:22, name:"叶子节点223"},
+			{ id:224, pId:22, name:"叶子节点224"},
+			{ id:23, pId:2, name:"父节点23 - 折叠"},
+			{ id:231, pId:23, name:"叶子节点231"},
+			{ id:232, pId:23, name:"叶子节点232"},
+			{ id:233, pId:23, name:"叶子节点233"},
+			{ id:234, pId:23, name:"叶子节点234"},
+			{ id:3, pId:0, name:"父节点3 - 没有子节点", isParent:true}
+		];
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+            $.fn.zTree.init($("#treeDemo2"), setting, zNodes);
+		});
+		//-->
+	</SCRIPT>
+
+
+
+<div class="layui-row" style="border:1px green solid;height:200px;width:80%;margin: auto;margin-top: 5px;">
+    <div class="layui-col-md3">  
+      <div class="zTreeDemoBackground left">
+        <H5>菜单信息</H5>
+        <ul id="treeDemo" class="ztree"></ul>
+      </div>
+    </div>
+
+    <div class="layui-col-md3">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单编号</label>
+                <div class="layui-input-block">
+                  <input type="text" name="id" required  lay-verify="required" placeholder="菜单编号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">父菜单编号</label>
+                <div class="layui-input-block">
+                  <input type="text" name="parentID" required  lay-verify="required" placeholder="父菜单编号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="layui-col-md6">
+        <div class="layui-form-item">
+            <label class="layui-form-label">标题</label>
+            <div class="layui-input-block">
+            <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">地址定位</label>
+            <div class="layui-input-block">
+            <input type="text" name="url" required lay-verify="required" placeholder="菜单地址URL" autocomplete="off" class="layui-input">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="layui-row" style="border:1px green solid;height:100px;width:80%;margin: auto;margin-top: 5px;">
+    <form class="layui-form" action="">
+        <div class="layui-form-item">
+            <label class="layui-form-label">规则信息</label>
+            <div class="layui-input-block">
+                <input type="radio" name="level" value="0" title="学生零级" checked>
+                <input type="radio" name="level" value="1" title="学生一级">
+                <input type="radio" name="level" value="2" title="学生二级">
+                <input type="radio" name="level" value="3" title="学生三级">
+                <input type="radio" name="level" value="4" title="学生四级">
+                <input type="radio" name="level" value="5" title="学生五级"><br/>
+
+                <input type="radio" name="level" value="11" title="开发一级">
+                <input type="radio" name="level" value="12" title="开发二级">
+                <input type="radio" name="level" value="13" title="开发三级">
+
+                <input type="radio" name="level" value="21" title="课程老师一级">
+                <input type="radio" name="level" value="22" title="课程老师二级">
+                <input type="radio" name="level" value="23" title="课程老师三级">
+
+                
+                <input type="radio" name="level" value="100" title="管理员">
+            </div>
+        </div>
+    </form> 
+</div> 
+
+
+<div class="layui-row" style="border:1px green solid;height:340px;width:80%;margin: auto;margin-top: 5px;">
+    <div class="layui-col-md4">  
+        <h1>规则菜单信息</h1>
+      <div class="zTreeDemoBackground left">
+        <ul id="treeDemo2" class="ztree"></ul>
+      </div>
+    </div>
+    <div class="layui-col-md8">
+        <form class="layui-form" action="">
+            <div class="layui-form-item">
+                <label class="layui-form-label">编号</label>
+                <div class="layui-input-block">
+                  <input type="text" name="id" required  lay-verify="required" placeholder="编号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">规则编号</label>
+                <div class="layui-input-block">
+                  <input type="text" name="roleId" required  lay-verify="required" placeholder="菜单编号" autocomplete="off" class="layui-input">
+                </div>
+            </div>     
+            <div class="layui-form-item">
+                <label class="layui-form-label">菜单编号</label>
+                <div class="layui-input-block">
+                  <input type="text" name="menuId" required  lay-verify="required" placeholder="菜单编号" autocomplete="off" class="layui-input">
+                </div>
+            </div>       
+            <div class="layui-form-item">
+                <label class="layui-form-label">父亲菜单编号</label>
+                <div class="layui-input-block">
+                  <input type="text" name="parentId" required  lay-verify="required" placeholder="父亲菜单编号" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">标题</label>
+              <div class="layui-input-block">
+                <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+              </div>
+            </div>
+            <div class="layui-form-item">
+              <label class="layui-form-label">地址定位</label>
+              <div class="layui-input-block">
+                <input type="text" name="url" required lay-verify="required" placeholder="菜单地址URL" autocomplete="off" class="layui-input">
+              </div>
+              <!-- <div class="layui-form-mid layui-word-aux">辅助文字</div> -->
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+<script src="http://unpkg.com/layui@2.9.3/dist/layui.js"></script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+
+
+</body>
+</html>
+

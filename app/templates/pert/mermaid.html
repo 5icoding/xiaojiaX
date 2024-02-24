@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<script src="https://cdn.jsdelivr.net/npm/mermaid@10.6.1/dist/mermaid.min.js"></script>
+
+	
+	<script>
+		mermaid.initialize({ startOnLoad: true });
+	</script>
+</head>
+<body>
+	Here is one mermaid diagram:
+	        <div class="mermaid">
+	            graph TD 
+	            A[Client] --> B[Load Balancer] 
+	            B --> C[Server1] 
+	            B --> D[Server2]
+	        </div>
+	
+	        And here is another:
+	        <div class="mermaid">
+	            graph TD 
+	            A[Client] -->|tcp_123| B
+	            B(Load Balancer) 
+	            B -->|tcp_456| C[Server1] 
+	            B -->|tcp_456| D[Server2]
+	        </div>
+</body>
+</html>

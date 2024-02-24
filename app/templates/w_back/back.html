@@ -1,0 +1,106 @@
+<html>
+<meta charset="utf-8">
+<head>
+<title>CodeMirror 示例</title>
+<link href="{{ url_for('static',filename='codemirror/css/codemirror.min.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='codemirror/lib/codemirror.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/css/javascript.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/css/jquery.min.js')}}" ></script>
+
+
+<link href="{{ url_for('static',filename='layui/css/layui.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='layui/layui.js')}}" ></script>
+<style type=text/css>
+    .CodeMirror {
+      float: left;
+      width: 50%;
+      border: 1px solid black;
+    }
+    iframe {
+      width: 49%;
+      float: left;
+      height: 300px;
+      border: 1px solid black;
+      border-left: 0px;
+    }
+</style>
+</head>
+<body>
+<ul class="layui-nav layui-bg-green" lay-filter="">
+  <li class="layui-nav-item"><a href="/">首页</a></li>
+  <li class="layui-nav-item"><a href="/news">新闻</a></li>
+  <li class="layui-nav-item layui-this"><a href="task">每日任务（键盘练习、代码五星学习，代码阅读）</a></li>
+  <li class="layui-nav-item"><a href="">小组学习</a></li>
+  <li class="layui-nav-item"><a href="">论坛</a></li>
+</ul>
+<div>
+    <div class="layui-container">
+        <div style="padding-top: 30px;">
+<textarea id=code name=code>
+</textarea>
+            <iframe id=preview></iframe>
+        </div>
+        <div style="clear:both;"></div>
+        <div style="margin-top:5px;">控制台输出：</div>
+        <div id="log" style="padding-left:10px;padding-top:10px;margin-top:2px;width:99%;height:60px;background-color: cornflowerblue;"></div>
+    </div>
+</div>
+
+</body>
+</html>
+
+
+
+<script>
+    var delay;
+    // Initialize CodeMirror editor with a nice html5 canvas demo.
+    var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+      mode: 'text/html',
+      styleActiveLine: true,    //高亮
+      lineNumbers: true,      //显示行号  
+      lineWrapping: true, //是否代码折叠
+      extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+      smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+      autoCloseTags: true,//自动闭合标签
+      autoCloseBrackets: true,//自动闭合括号
+      matchBrackets: true,//括号匹配
+    });
+    editor.on("change", function() {
+      clearTimeout(delay);
+      delay = setTimeout(updatePreview, 300);
+    });
+    
+    
+    function updatePreview() {
+      var previewFrame = document.getElementById('preview');
+      var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+      preview.open();
+      preview.write(editor.getValue());
+      preview.close();
+      getConsole() 
+    }
+    setTimeout(updatePreview, 300);
+
+    const originalLog = console.log;
+    console.log = function (...value) {
+        originalLog.apply(console, value);
+        return value;
+    };
+
+  function getConsole() {
+      var code = editor.getValue();
+
+      const response = eval(code);
+      //alert(response)
+      log = document.getElementById("log");
+      
+      log.innerHTML = '>>'+response;
+  }
+
+
+</script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>

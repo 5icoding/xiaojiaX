@@ -1,0 +1,198 @@
+
+{% extends 'base.html' %}
+{% block header %}
+<script src="{{ url_for('static',filename='snap/js/snap.svg-min.js')}}" ></script>
+
+
+<script src="{{ url_for('static',filename='codemirror/css/javascript.js')}}" ></script>
+
+
+<style type=text/css>
+    .CodeMirror {
+        float: left;
+        width: 50%;
+        border: 1px solid black;
+        height: 450px;
+    }
+    iframe {
+        width: 49%;
+        float: left;
+        height: 450px;
+        border: 1px solid black;
+        border-left: 0px;
+    }
+    #svg {
+        -moz-border-radius: 10px;
+        -webkit-border-radius: 10px;
+        border-radius: 10px;
+        border: solid 2px #ccc;
+        width: 98%;
+        height: 40px;
+        float: left;
+        margin-right: 10px;
+        padding-top:3px;
+        font: 1em source-sans-pro, Source Sans Pro, Helvetica, sans-serif;
+    }
+</style>
+
+<script>
+var S;
+window.onload = function () {
+    var s = Snap("#svg");
+    function chooser(s, count) {
+        var loop = "M35,65a30,30,0,0,0,0-60a30,30,0,0,0,0,60",
+            line = "M35,65a30,30,0,0,0,0-60a30,30,0,0,0,0,60c30,0,60-60,90-60a30,30,0,0,1,0,60a30,30,0,0,1,0-60",
+            l1 = Snap.path.getTotalLength(loop),
+            l2 = Snap.path.getTotalLength(line),
+            cur = 1,
+            p = s.path({
+                path: loop,
+                fill: "none",
+                stroke: "#f00",
+                strokeWidth: 6,
+                strokeLinecap: "round"
+            });
+            for (var i = 1; i <= count; i++) {
+                s.text(90 * i - 55, 49, i).attr({
+                    font: "45px source-sans-pro, Source Sans Pro, Helvetica, sans-serif",
+                    textAnchor: "middle"
+                });
+                (function (i) {
+                    s.circle(90 * i - 55, 35, 40).attr({
+                        opacity: 0
+                    }).click(eve.f("tut.click", i - 1));
+                }(i));
+            }
+
+            s.path("M11.166,23.963L22.359,17.5c1.43-0.824,1.43-2.175,0-3L11.166,8.037c-1.429-0.826-2.598-0.15-2.598,1.5v12.926C8.568,24.113,9.737,24.789,11.166,23.963z").transform("t" + (90 * (count + 1) - 68) + ",18s2");
+            var but = s.circle(90 * (count + 1) - 55, 35, 30).attr({
+                fillOpacity: 0,
+                stroke: "#333",
+                strokeWidth: 2
+            });
+
+            eve.on("tut.click", function (I) {
+                p.attr({
+                    path: loop,
+                    transform: "t" + (90 * I) + ",0"
+                });
+                cur = I + 1;
+            });
+        //动画效果
+        function frameHandler(frame) {
+            function anim() {
+                cur++;
+                if (cur > count) {
+                    return;
+                }
+                if (typeof frame == "function") {
+                    frame(cur);
+                }
+                Snap.animate(0, l2 - l1, function (val) {
+                    p.attr({
+                        path: Snap.path.getSubpath(line, val, val + l1)
+                    });
+                }, 500, function () {
+                    p.attr({
+                        path: loop,
+                        transform: p.transform() + "t90,0"
+                    });
+                });
+            }
+            if (typeof frame == "function") {
+                but.click(anim);
+            } else {
+                anim();
+            }
+        }
+        return frameHandler;
+    }
+    //
+    var g = s.g();
+    
+    
+
+    g.attr({
+        transform: "s.5,.5,0,0"
+    });
+
+
+
+    //回调函数
+    var callback = function (i) {
+        
+        //alert('ok')
+        
+        editor.setValue('<h'+i+'>hello</h'+i+'>')
+        updatePreview()
+
+
+    };
+
+
+    //
+    callback(1);
+    chooser(g, 8)(callback);
+
+    eve.on("tut.click", function (I) {
+        callback(I + 1);
+    });
+};
+</script>
+{% endblock %}
+
+{% block content %}
+<div>
+    <div class="layui-container">
+        <div style="padding-top: 30px;">
+            <textarea id=code name=code>
+<h1>hello</h1>
+            </textarea>
+            <iframe id=preview></iframe>
+        </div>
+        <div style="clear:both"></div>
+        <br/>
+
+        <svg id="svg" width=850 height=35></svg>
+
+    </div>
+</div>
+<div style="clear:both"></div>
+
+
+<script>
+    // var delay;
+    // // Initialize CodeMirror editor with a nice html5 canvas demo.
+    var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+      mode: 'text/html',
+      styleActiveLine: true,    //高亮
+      lineNumbers: true,      //显示行号  
+      lineWrapping: true, //是否代码折叠
+      extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+      smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+      autoCloseTags: true,//自动闭合标签
+      autoCloseBrackets: true,//自动闭合括号
+      matchBrackets: true,//括号匹配
+    });
+    // editor.on("change", function() {
+    //   clearTimeout(delay);
+    //   delay = setTimeout(updatePreview, 300);
+    // });
+    
+    function updatePreview() {
+      var previewFrame = document.getElementById('preview');
+      var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+      preview.open();
+      preview.write(editor.getValue());
+      preview.close();
+    }
+</script>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+
+{% endblock %}
+
+

@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<title>jQuery带节点步骤进度条插件</title>
+		<link rel="stylesheet" href="ystep.css">
+		<link rel="stylesheet" type="text/css" href="https://s1.pstatp.com/cdn/expire-1-M/font-awesome/4.6.0/css/font-awesome.min.css">
+	</head>
+	<style type="text/css">
+		.stepPage {
+			height: 300px;
+			border: 1px solid #000;
+		}
+	</style>
+
+	<body>
+
+
+
+		<h1>横向进度条</h1>
+
+		<!-- 菜单及分页容器-->
+		<div class="stepCont stepCont1 ">
+			<!-- 菜单导航显示-->
+			<div class='ystep-container ystep-lg ystep-blue'></div>
+			<!-- 分页容器-->
+			<div class="pageCont">
+				<div id="page1" class="stepPage">
+					<h1>这是第一个页面</h1>
+				</div>
+				<div id="page2" class="stepPage">
+					<h1>这是第二个页面</h1>
+				</div>
+				<div id="page3" class="stepPage">
+					<h1>这是第三个页面</h1>
+				</div>
+				<div id="page4" class="stepPage">
+					<h1>这是第四个页面</h1>
+				</div>
+				<div id="page5" class="stepPage">
+					<h1>这是第五个页面</h1>
+				</div>
+			</div>
+		</div>
+
+
+
+	</body>
+
+</html>
+
+<script type="text/javascript" src="jquery.min.js"></script>
+<script type="text/javascript" src="setStep.js"></script>
+<script>	
+var step1 = new SetStep({
+    skin:1,
+    content: '.stepCont1',
+    showBtn: false,
+    descriptionHeader: ['步骤一', '步骤二', '步骤三', '步骤四', '步骤五'],
+    description: ['对每一个步骤详细的描述', '对每一个步骤详细的描述', '对每一个步骤详细的描述', '对每一个步骤详细的描述', '对每一个步骤详细的描述'],
+    showBtn:true,
+})
+</script>

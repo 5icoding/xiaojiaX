@@ -1,0 +1,120 @@
+<link href="{{ url_for('static',filename='layui/css/layui.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='layui/layui.js')}}" ></script>
+
+<script src="{{ url_for('static',filename='jquery/jquery.min.js')}}"></script>
+
+<link href="{{ url_for('static',filename='codemirror/css/codemirror.min.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='codemirror/lib/codemirror.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/model/python.js')}}" ></script>
+
+<script type="text/javascript" src="{{ url_for('static',filename='brython/3.12.0/brython.min.js')}}"> </script>
+<script type="text/javascript" src="{{ url_for('static',filename='brython/3.12.0/brython_stdlib.js')}}"> </script>
+
+<header>
+    <style>
+    body{
+      overflow-x: hidden; /* 禁用水平滚动条 */
+      overflow-y: hidden; /* 禁用垂直滚动条 */
+    }
+    #footer {
+      background-color: #6badb0;
+      color: #fff;
+      padding: 10px;
+      text-align: center;
+      position: fixed;
+      bottom: 0;
+      width: 100%;
+    }
+    </style>
+    {% block header %}{% endblock %}
+</header>
+
+<body>
+
+    {% if g.user %}
+        {% if g.user.role == 1 %}
+          <ul class="layui-nav layui-bg-green" lay-filter="">
+            <li class="layui-nav-item"><a href="{{url_for('study.index')}}">首页</a></li>
+            <li class="layui-nav-item"><a href="{{url_for('study.read_news')}}">新闻</a></li>
+            <li class="layui-nav-item layui-this"><a href="{{url_for('study.task_style')}}">每日任务</a></li>
+            <li class="layui-nav-item"><a href="{{url_for('study.yjs')}}">小组学习</a></li>
+            <li class="layui-nav-item"><a href="{{url_for('study.forum')}}">论坛</a></li>
+            <li class="layui-nav-item" style="float: right;"><a href="/auth/logout">退出</a></li>
+            <li class="layui-nav-item" style="float: right;"><a href="#">用户ID:{{  g.user.id }} |用户级别：{{g.user.role}}级 |用户名：{{g.user.username}}</a></li>
+            
+          </ul>
+        {% endif %}
+        {% if g.user.role == 2 %}
+          <ul class="layui-nav layui-bg-green" lay-filter="">
+            <li class="layui-nav-item"><a href="/">首页</a></li>
+            <li class="layui-nav-item">
+              <a href="javascript:;">课程开发</a>
+              <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a href="/course/js">js课程开发</a></dd>
+                <dd><a href="/course/py">python课程开发</a></dd>
+                <dd><a href="/course/rust">rust课程开发</a></dd>
+              </dl>
+            </li>
+            <li class="layui-nav-item">
+              <a href="javascript:;">乌龟课程开发</a>
+              <dl class="layui-nav-child"> <!-- 二级菜单 -->
+                <dd><a href="/course/js_turtle">js课程开发</a></dd>
+                <dd><a href="/course/py_turtle">python课程开发</a></dd>
+              </dl>
+            </li>        
+              <li class="layui-nav-item layui-this"><a href="#">开发策略</a></li>
+              <li class="layui-nav-item"><a href="/news">知识图谱</a></li>
+            
+            <li class="layui-nav-item"><a href="">社区</a></li>
+          </ul>
+        {% endif %}
+    {% else %}
+    <ul class="layui-nav layui-bg-green" lay-filter="">
+      <li class="layui-nav-item layui-logo" style="padding-right: 40px;font-size: 26;font-weight: 300;font-style: italic;">小+X</li>
+      <li class="layui-nav-item layui-this"><a href="#">首页</a></li>
+      <li class="layui-nav-item"><a href="ide">在线编辑器</a></li>
+      
+      <li class="layui-nav-item">
+        <a href="javascript:;">小游戏</a>
+        <dl class="layui-nav-child"> <!-- 二级菜单 -->
+          <dd><a href="">Flexbox Froggy</a></dd>
+          <dd><a href="">gridgarden</a></dd>
+          <dd><a href=""></a></dd>
+        </dl>
+      </li>
+      <li class="layui-nav-item"><a href="">社区</a></li>
+      <li class="layui-nav-item"><a href="">关于我们</a></li>
+      <li class="layui-nav-item"><a href="">联系我们</a></li>
+      <li class="layui-nav-item"><a href="">加入我们</a></li>
+    
+      <li class="layui-nav-item"><a href="">友情链接</a></li>
+    
+    
+      <li class="layui-nav-item" style="float: right;"><a href="/auth/register">注册</a></li>
+      <li class="layui-nav-item" style="float: right;"><a href="/auth/login">登录</a></li>
+    </ul>  
+    {% endif %}
+
+
+{% block content %}
+{% endblock %}
+</body>
+
+{% block footer %}
+<script>
+  //JavaScript代码区域
+  layui.use(['element', 'layer'], function () {
+      var element = layui.element;
+      var layer = layui.layer;
+  });
+</script>
+
+<div id="footer">
+    <p>© 2024 XiaoJiaX. All Rights Reserved. | 公司信息: 河南崤嘉科技网络公司</p>
+</div>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+{% endblock %}

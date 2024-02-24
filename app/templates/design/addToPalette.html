@@ -1,0 +1,189 @@
+
+  <!DOCTYPE html>
+  <html lang="en">
+  <body>
+  <script src="https://unpkg.com/gojs@2.3.13/release/go.js"></script>
+  <p>
+    This is a minimalist HTML and JavaScript skeleton of the GoJS Sample
+    <a href="https://gojs.net/latest/samples/addToPalette.html">addToPalette.html</a>. It was automatically generated from a button on the sample page,
+    and does not contain the full HTML. It is intended as a starting point to adapt for your own usage.
+    For many samples, you may need to inspect the
+    <a href="https://github.com/NorthwoodsSoftware/GoJS/blob/master/samples/addToPalette.html">full source on Github</a>
+    and copy other files or scripts.
+  </p>
+  <div id="allSampleContent" class="p-4 w-full">
+  <script src="https://unpkg.com/gojs@2.3.13/extensions/Figures.js"></script>
+  <link rel="stylesheet" href="https://unpkg.com/gojs@2.3.13/extensions/DataInspector.css">
+  <script src="https://unpkg.com/gojs@2.3.13/extensions/DataInspector.js"></script>
+    <script id="code">
+    function init() {
+
+
+      // Since 2.2 you can also author concise templates with method chaining instead of GraphObject.make
+      // For details, see https://gojs.net/latest/intro/buildingObjects.html
+      const $ = go.GraphObject.make;
+
+      // initialize main Diagram
+      myDiagram =
+        new go.Diagram("myDiagramDiv",
+          {
+            "undoManager.isEnabled": true
+          });
+
+      myDiagram.nodeTemplate =
+        $(go.Node, "Auto",
+          { locationSpot: go.Spot.Center },
+          new go.Binding("location", "location", go.Point.parse).makeTwoWay(go.Point.stringify),
+          $(go.Shape, "Circle",
+            {
+              fill: "white", stroke: "gray", strokeWidth: 2,
+              portId: "", fromLinkable: true, toLinkable: true,
+              fromLinkableDuplicates: true, toLinkableDuplicates: true,
+              fromLinkableSelfNode: true, toLinkableSelfNode: true
+            },
+            new go.Binding("stroke", "color"),
+            new go.Binding("figure")),
+          $(go.TextBlock,
+            {
+              margin: new go.Margin(5, 5, 3, 5), font: "10pt sans-serif",
+              minSize: new go.Size(16, 16), maxSize: new go.Size(120, NaN),
+              textAlign: "center", editable: true
+            },
+            new go.Binding("text").makeTwoWay())
+        );
+
+      // initialize Palette
+      myPalette =
+        new go.Palette("myPaletteDiv",
+          {
+            nodeTemplate: myDiagram.nodeTemplate,
+            contentAlignment: go.Spot.Center,
+            layout:
+              $(go.GridLayout,
+                { wrappingColumn: 1, cellSize: new go.Size(2, 2) }),
+            "ModelChanged": e => {     // just for demonstration purposes,
+              if (e.isTransactionFinished) {  // show the model data in the page's TextArea
+                document.getElementById("mySavedPaletteModel").textContent = e.model.toJson();
+              }
+            }
+          });
+
+      // now add the initial contents of the Palette
+      myPalette.model.nodeDataArray = [
+        { text: "Circle", color: "blue", figure: "Circle" },
+        { text: "Square", color: "purple", figure: "Square" },
+        { text: "Ellipse", color: "orange", figure: "Ellipse" },
+        { text: "Rectangle", color: "red", figure: "Rectangle" },
+        { text: "Rounded\nRectangle", color: "green", figure: "RoundedRectangle" },
+        { text: "Triangle", color: "purple", figure: "Triangle" },
+      ];
+
+      // initialize Overview
+      myOverview =
+        new go.Overview("myOverviewDiv",
+          {
+            observed: myDiagram,
+            contentAlignment: go.Spot.Center
+          });
+
+      var inspector = new Inspector('myInspectorDiv', myDiagram,
+        {
+          // uncomment this line to only inspect the named properties below instead of all properties on each object:
+          // includesOwnProperties: false,
+          properties: {
+            "text": {},
+            // key would be automatically added for nodes, but we want to declare it read-only also:
+            "key": { readOnly: true, show: Inspector.showIfPresent },
+            // color would be automatically added for nodes, but we want to declare it a color also:
+            "color": { type: 'color' },
+            "figure": {}
+          }
+        });
+
+      load();
+    }
+
+    // Show the diagram's model in JSON format
+    function save() {
+      document.getElementById("mySavedModel").value = myDiagram.model.toJson();
+      myDiagram.isModified = false;
+    }
+    function load() {
+      myDiagram.model = go.Model.fromJson(document.getElementById("mySavedModel").value);
+    }
+
+    function addToPalette() {
+      var node = myDiagram.selection.filter(p => p instanceof go.Node).first();
+      if (node !== null) {
+        myPalette.startTransaction();
+        var item = myPalette.model.copyNodeData(node.data);
+        myPalette.model.addNodeData(item);
+        myPalette.commitTransaction("added item to palette");
+      }
+    }
+
+    // The user cannot delete selected nodes in the Palette with the Delete key or Control-X,
+    // but they can if they do so programmatically.
+    function removeFromPalette() {
+      myPalette.commandHandler.deleteSelection();
+    }
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+
+<div id="sample">
+  <div style="width:100%; white-space:nowrap;">
+    <span style="display: inline-block; vertical-align: top; padding: 2px; width:140px">
+      <div id="myPaletteDiv" style="background-color: whitesmoke; border: 1px solid black; height: 400px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); cursor: auto;"><canvas tabindex="0" width="167" height="497" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 134px; height: 398px; cursor: auto;"></canvas><div style="position: absolute; overflow: auto; width: 134px; height: 398px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
+      <div id="myOverviewDiv" style="border: 1px solid black; height: 100px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); cursor: move;"><canvas tabindex="0" width="134" height="98" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 134px; height: 98px; cursor: move;"></canvas><div style="position: absolute; overflow: auto; width: 134px; height: 98px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
+    </span>
+    <span style="display: inline-block; vertical-align: top; padding: 2px; width:500px">
+      <div id="myDiagramDiv" style="border: 1px solid black; height: 500px; position: relative; -webkit-tap-highlight-color: rgba(255, 255, 255, 0); cursor: auto;"><canvas tabindex="0" width="617" height="622" style="position: absolute; top: 0px; left: 0px; z-index: 2; user-select: none; touch-action: none; width: 494px; height: 498px; cursor: auto;"></canvas><div style="position: absolute; overflow: auto; width: 494px; height: 498px; z-index: 1;"><div style="position: absolute; width: 1px; height: 1px;"></div></div></div>
+    </span>
+    <span style="display: inline-block; vertical-align: top; padding: 2px; width:200px">
+      <div id="myInspectorDiv" class="inspector"><table><tbody><tr><td>text</td><td><input type="undefined" tabindex="0"></td></tr><tr><td>key</td><td><input type="undefined" tabindex="1" disabled=""></td></tr><tr><td>color</td><td><input type="color" tabindex="2"></td></tr><tr><td>figure</td><td><input type="undefined" tabindex="3"></td></tr><tr><td>location</td><td><input tabindex="4"></td></tr></tbody></table></div>
+    </span>
+  </div>
+  <p>
+    This sample supports the normal kind of drag-and-drop from a <a href="../api/symbols/Palette.html" target="api" previewlistener="true">Palette</a> to a <a href="../api/symbols/Diagram.html" target="api" previewlistener="true">Diagram</a>.
+    The Data <a href="../api/symbols/Inspector.html" target="api" previewlistener="true">Inspector</a> allows you to edit the properties of a selected node in the diagram.
+  </p>
+  <p>
+    This sample also supports dynamically adding a copy of a selected node in the diagram to the
+    palette by the "Add To Palette" button.
+    See the current state of the palette's model in the top textarea.
+    The palette is <a href="../api/symbols/Diagram.html#isReadOnly" target="api">Diagram.isReadOnly</a>, so the user cannot delete selected nodes from the palette.
+    But the "Delete From Palette" button removes any selected nodes from the palette.
+  </p>
+  <div>
+    <button onclick="addToPalette()">Add To Palette</button>
+    <button onclick="removeFromPalette()">Delete From Palette</button>
+    Palette model:
+  </div>
+  <textarea id="mySavedPaletteModel" style="width:100%;height:200px">{ "class": "GraphLinksModel",
+  "nodeDataArray": [
+{"text":"Circle","color":"blue","figure":"Circle","key":-1,"location":"0 0"},
+{"text":"Square","color":"purple","figure":"Square","key":-2,"location":"0 71.95319410812024"},
+{"text":"Ellipse","color":"orange","figure":"Ellipse","key":-3,"location":"0 129.20497521688773"},
+{"text":"Rectangle","color":"red","figure":"Rectangle","key":-4,"location":"0 171.78930484860444"},
+{"text":"Rounded\nRectangle","color":"green","figure":"RoundedRectangle","key":-5,"location":"0 219.9476814175826"},
+{"text":"Triangle","color":"purple","figure":"Triangle","key":-6,"location":"0 280.5717089265022"}
+],
+  "linkDataArray": []}</textarea>
+  <div>
+    <button id="loadModel" onclick="load()">Load</button>
+    <button id="saveModel" onclick="save()">Save</button>
+    Diagram model:
+  </div>
+  <textarea id="mySavedModel" style="width:100%;height:200px">{ "class": "go.GraphLinksModel",
+  "nodeDataArray": [
+    { "key": 1, "text": "hello", "figure":"Circle", "color":"green", "location":"0 0" },
+    { "key": 2, "text": "world", "figure":"Rectangle", "color":"red", "location":"100 0" }
+ ],
+  "linkDataArray": [
+    { "from":1, "to":2 }
+ ]}
+  </textarea>
+<p class="text-xs">GoJS version 2.3.13. Copyright 1998-2023 by Northwoods Software.</p></div>
+    <p><a href="https://github.com/NorthwoodsSoftware/GoJS/blob/master/samples/addToPalette.html" target="_blank" previewlistener="true">View this sample page's source on GitHub</a></p></div>
+  </body>
+  </html>

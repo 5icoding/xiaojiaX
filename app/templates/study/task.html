@@ -1,0 +1,138 @@
+
+{% extends 'base.html' %}
+{% block header %}
+
+{% endblock %}
+
+{% block content %}
+
+
+<div style="padding-top: 30px;width: 80%;margin:auto">
+
+    <center><h1>每日任务</h1></center>
+    <div style="padding-bottom: 30px;"></div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md4">
+          <div class="layui-panel">
+            <div style="padding: 30px;height: 300px;">
+                <div class="layui-card">
+                    <div class="layui-card-header" style="background-color: rgb(208, 249, 208);">键盘练习</div>
+                    <div class="layui-card-body">
+                        <div>
+                            <div>学习进度：</div>
+                            <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                <div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+                            </div>
+                        </div>
+                        <br/>
+                        <div>
+                        <p>学习评价：</p>
+                        <p>&nbsp;&nbsp;&nbsp;&nbsp;卡片式面板面板通常用于非白色背景色的主体内，从而映衬出边框投影
+                            从而映衬出边框投影。</p>
+                        </div>
+                        <br/>
+                        <div style="float:right">
+                            <button class="layui-btn layui-btn-radius layui-btn-normal" id="btn_key">开始学习</button>
+                            
+                        </div>
+                      
+                    </div>
+                  </div>
+            
+            </div>
+          </div>   
+        </div>
+
+        <div class="layui-col-md4">
+            <div class="layui-panel">
+              <div style="padding: 30px;height: 300px;">
+                  <div class="layui-card">
+                      <div class="layui-card-header" style="background-color: rgb(208, 249, 208);">项目编写</div>
+                      <div class="layui-card-body">
+                          <div>
+                              <div>学习进度：</div>
+                              <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                  <div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+                              </div>
+                          </div>
+                          <br/>
+                          <div>
+                          <p>学习评价：</p>
+                          <p>&nbsp;&nbsp;&nbsp;&nbsp;卡片式面板面板通常用于非白色背景色的主体内，从而映衬出边框投影
+                              从而映衬出边框投影。</p>
+                          </div>
+                          <br/>
+                          <div style="float:right">
+                              <button class="layui-btn layui-btn-radius layui-btn-normal" id="btn_project">开始学习</button>
+                          </div>
+                        
+                      </div>
+                    </div>
+              
+              </div>
+            </div>   
+          </div>
+
+          <div class="layui-col-md4">
+            <div class="layui-panel">
+              <div style="padding: 30px;height: 300px;">
+                  <div class="layui-card">
+                      <div class="layui-card-header" style="background-color: rgb(208, 249, 208);">代码阅读</div>
+                      <div class="layui-card-body">
+                          <div>
+                              <div>学习进度：</div>
+                              <div class="layui-progress layui-progress-big" lay-showPercent="yes">
+                                  <div class="layui-progress-bar layui-bg-green" lay-percent="50%"></div>
+                              </div>
+                          </div>
+                          <br/>
+                          <div>
+                          <p>学习评价：</p>
+                          <p>&nbsp;&nbsp;&nbsp;&nbsp;卡片式面板面板通常用于非白色背景色的主体内，从而映衬出边框投影
+                              从而映衬出边框投影。</p>
+                          </div>
+                          <br/>
+                          <div style="float:right">
+                              <button class="layui-btn layui-btn-radius layui-btn-normal" id="btn_read">开始学习</button>
+                          </div>
+                        
+                      </div>
+                    </div>
+              
+              </div>
+            </div>   
+          </div>
+
+</div>
+
+
+
+<script>
+    //JavaScript代码区域
+    layui.use(['element', 'layer'], function () {
+        var element = layui.element;
+        var layer = layui.layer;
+  
+    });
+$(document).ready(function(){
+    alert('task page')
+    $('#btn_key').click(function(){
+        alert('btn_key');
+        var relativeUrl = "{{ url_for('study.key')}}";
+        window.location.href = relativeUrl;
+    });
+    $('#btn_read').click(function(){
+        alert('btn_read');
+        var relativeUrl = "{{ url_for('study.snap')}}";
+        window.location.href = relativeUrl;
+    });
+    $('#btn_project').click(function(){
+        alert('btn_project');
+        var relativeUrl = "{{ url_for('study.smallfivestar')}}";
+        window.location.href = relativeUrl;
+    });
+
+});
+</script>
+
+{% endblock %}

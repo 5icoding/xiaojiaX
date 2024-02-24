@@ -1,0 +1,63 @@
+<link href="{{ url_for('static',filename='layui/css/layui.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='layui/layui.js')}}" ></script>
+<script src="{{ url_for('static',filename='jquery/jquery.min.js')}}"></script>
+
+<link href="{{ url_for('static',filename='codemirror/css/codemirror.min.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='codemirror/lib/codemirror.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/model/python.js')}}" ></script>
+
+<script type="text/javascript" src="{{ url_for('static',filename='brython/3.12.0/brython.min.js')}}"> </script>
+<script type="text/javascript" src="{{ url_for('static',filename='brython/3.12.0/brython_stdlib.js')}}"> </script>
+
+<header>
+<style>
+body{
+  overflow-x: hidden; /* 禁用水平滚动条 */
+  overflow-y: hidden; /* 禁用垂直滚动条 */
+}
+#footer {
+  background-color: #6badb0;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+}
+</style>
+{% block header %}
+{% endblock %}
+</header>
+
+<body>
+<ul class="layui-nav layui-bg-green" lay-filter="">
+    <li class="layui-nav-item"><a href="#">首页</a></li>
+    <li class="layui-nav-item  layui-this"><a href={{url_for('design.python_course')}}>基础Python课程</a></li>
+    <li class="layui-nav-item"><a href="#"></a></li>
+    <li class="layui-nav-item"><a href=""></a></li>
+    <li class="layui-nav-item"><a href=""></a></li>
+</ul>
+
+
+{% block content %}
+{% endblock %}
+</body>
+
+{% block footer %}
+<script>
+  //JavaScript代码区域
+  layui.use(['element', 'layer'], function () {
+      var element = layui.element;
+      var layer = layui.layer;
+  });
+</script>
+
+<div id="footer">
+    <p>© 2024 XiaoJiaX. All Rights Reserved. | 公司信息: 河南崤嘉科技网络公司</p>
+</div>
+<script>
+    layui.use('element', function(){
+        var element = layui.element;
+    });
+</script>
+{% endblock %}

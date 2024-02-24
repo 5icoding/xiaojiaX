@@ -1,0 +1,112 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>Example of a simple class diagram using the jsUML2 library</title>
+
+    
+    <link href="{{ url_for('static',filename='uml/UDStyle.css')}}" rel="stylesheet" />
+
+    <script src="{{ url_for('static',filename='uml/UDCore.js')}}" ></script>
+    <script src="{{ url_for('static',filename='uml/UDModules.js')}}" ></script>
+
+    <script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+    <link href="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+    
+    
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/xml/xml.js></script>
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.js></script>
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/css/css.js></script>
+    <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.js></script>
+    
+    <style type=text/css>
+        .CodeMirror {
+          float: left;
+          width: 50%;
+          border: 1px solid black;
+        }
+        #classDiagram-wrap {
+          width: 49%;
+          float: left;
+          height: 300px;
+          border: 1px solid black;
+          border-left: 0px;
+        }
+      </style>
+
+    <script type="text/javascript">
+        window.onload = function () {
+
+        }
+    </script>
+</head>
+
+<body>
+    <h1>Example of a simple class diagram using the jsUML2 library</h1>
+    <button id=run onclick="run()">运行</button>
+    <br/>
+  <textarea id=code name=code>
+var classDiagram = new UMLClassDiagram({ id: 'classDiagram', width: 380, height: 300 });
+// Adding classes...
+var vehicleClass = new UMLClass({ x: 100, y: 50 });
+var carClass = new UMLClass({ x: 30, y: 170 });
+var boatClass = new UMLClass({ x: 150, y: 170 });
+classDiagram.addElement(vehicleClass);
+classDiagram.addElement(carClass);
+classDiagram.addElement(boatClass);
+
+// Adding generalizations...
+var generalization1 = new UMLGeneralization({ b: vehicleClass, a: carClass });
+var generalization2 = new UMLGeneralization({ b: vehicleClass, a: boatClass });
+classDiagram.addElement(generalization1);
+classDiagram.addElement(generalization2);
+
+
+//Defining vehicleClass
+vehicleClass.setName("Vehicle");
+vehicleClass.addAttribute('owner');
+vehicleClass.addAttribute('capacity');
+vehicleClass.addOperation('getOwner()');
+vehicleClass.addOperation('getCapacity()');
+
+//Defining carClass
+carClass.setName("Car");
+carClass.addAttribute('num_doors');
+carClass.addOperation('getNumDoors()');
+
+//Defining boatClass
+boatClass.setName("Boat");
+boatClass.addAttribute('mast');
+boatClass.addOperation('getMast()');
+
+//Draw the diagram
+classDiagram.draw();
+
+//Interaction is possible (editable)
+classDiagram.interaction(true);
+  </textarea>
+<div id="classDiagram-wrap">
+   <div id="classDiagram"></div>
+</div>
+</body>
+<script>
+      var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+        mode: 'js',
+        styleActiveLine: true,    //高亮
+        lineNumbers: true,      //显示行号  
+        lineWrapping: true, //是否代码折叠
+        extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+        smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+        autoCloseTags: true,//自动闭合标签
+        autoCloseBrackets: true,//自动闭合括号
+        matchBrackets: true,//括号匹配
+      });
+      function run(){
+        eval(editor.getValue())
+      }
+
+</script>
+</html>

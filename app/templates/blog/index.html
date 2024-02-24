@@ -1,0 +1,132 @@
+<html>
+
+<title></title>
+<head>
+<style>
+    body {
+        background-color: lightblue;
+    }
+    h1 {
+        color: red;
+    }
+    p { 
+        font-size: 18px;
+    }
+    img {
+        width: 300px;
+    }
+    a {
+        color: blue;
+    }
+    .highlight {
+        background-color: yellow;
+    }
+    #footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        background-color: gray;
+        color: white;
+        text-align: center;
+    }
+    #footer a {
+        color: white;
+    }
+    #footer a:hover {
+        color: yellow;
+    }
+    #footer p {
+        margin: 0;
+    }
+    #footer p:first-child {
+        margin-top: 10px;
+    }
+    #footer p:last-child {
+        margin-bottom: 10px;
+    }
+    #footer p:only-child {
+        margin-top: 10px;
+        margin-bottom: 10px;
+    }
+    #footer p:nth-child(2) {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #footer p:nth-last-child(2) {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #footer p:nth-of-type(2) {
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+    #footer p:nth-last-of-type(2)
+
+</style>
+<script src="script.js"></script>
+<link href="{{ url_for('static',filename='layui/css/layui.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='layui/layui.js')}}" ></script>
+<script src="{{ url_for('static',filename='js/jquery-3.6.0.min.js')}}" ></script>
+</head>
+<body>
+<h1>Hello World!</h1>
+
+<div class="layui-row" style="border:1px green solid;width:98%;margin: auto;margin-top: 10px;">
+    <form class="layui-form" action="">
+      <div class="layui-form-item">
+        <label class="layui-form-label">标题</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">内容</label>
+        <div class="layui-input-block">
+          <textarea name="content" required  lay-verify="required" placeholder="请输入内容" class="layui-textarea"></textarea>
+      </div>
+      <div class="layui-form-item">
+        <div class="layui-input-block">
+          <button class="layui-btn" id="save" lay-submit lay-filter="formDemo">立即提交</button>
+          <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+      </div>
+    </form>
+</div>
+
+
+
+<div id="footer">   
+    <p>版权所有 © 2023 网站名称</p>
+    <p>联系方式：1234567890</p>
+</div>
+
+<script>
+
+$(document).ready(function(){
+    $('#footer p:nth-last-child(2)').css('color', 'blue');
+    $('#save').click(function(){
+        var title = $('input[name="title"]').val();
+        var content = $('textarea[name="content"]').val();
+        $.ajax({
+            url: '{{url_for(blog.create)}}',
+            type: 'POST',
+            data: {
+                title: title,
+                content: content
+            },  
+            success: function(response){
+                console.log(response);
+            },
+            error: function(xhr, status, error){
+                console.log(error);
+            }
+        });
+    });
+});
+</script>
+
+
+
+
+</body>
+
+</html>

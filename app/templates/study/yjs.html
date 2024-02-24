@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% block header %}
+
+    <link href="{{ url_for('static',filename='codemirror/css/codemirror.min.css')}}" rel="stylesheet" />
+    <script src="{{ url_for('static',filename='yjs/codemirror.bundle.js')}}" ></script>
+    <script src="{{ url_for('static',filename='codemirror/css/javascript.js')}}" ></script>
+    <script src="{{ url_for('static',filename='codemirror/css/jquery.min.js')}}" ></script>
+    
+    
+    <link href="{{ url_for('static',filename='layui/css/layui.css')}}" rel="stylesheet" />
+    <script src="{{ url_for('static',filename='layui/layui.js')}}" ></script>
+    <style>
+      .remote-caret {
+        position: relative;
+        border-left: 2px solid black;
+        margin-left: -1px;
+        margin-right: -1px;
+        box-sizing: border-box;
+      }
+      .remote-caret > div {
+        position: absolute;
+        top: -1.05em;
+        left: -2px;
+        font-size: .6em;
+        background-color: rgb(250, 129, 0);
+        font-family: serif;
+        font-style: normal;
+        font-weight: normal;
+        line-height: normal;
+        user-select: none;
+        color: white;
+        padding-left: 2px;
+        padding-right: 2px;
+        z-index: 3;
+        transition: opacity .3s ease-in-out;
+      }
+      .remote-caret.hide-name > div {
+        transition-delay: .7s;
+        opacity: 0;
+      }
+      .remote-caret:hover > div {
+        opacity: 1;
+        transition-delay: 0s;
+      }
+      #editor{
+        width:700px;
+        height:500px;
+        font-family: Arial, monospace;
+        border:1px solid green;
+        margin-left:60px;
+        font-size : 18px;
+        line-height : 150%;
+      }
+      </style>
+{% endblock %}
+
+{% block content %}
+
+<div style="margin-left: 60px;margin-top: 20px;">
+  <button id="y-connect-btn" class="layui-btn  layui-btn-normal " id="btn_key">Disconnect</button>
+</div>
+<p>&nbsp;</p>
+
+<iframe id="preview" style="float:right;margin-right: 60px;width:700px;height: 500px;"></iframe>
+
+
+<script>
+let delay;
+
+editor.on("change", function() {
+  clearTimeout(delay);
+  delay = setTimeout(updatePreview, 300);
+});
+
+
+function updatePreview() {
+  var previewFrame = document.getElementById('preview');
+  var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+  preview.open();
+  preview.write(editor.getValue());
+  preview.close();
+  getConsole() 
+}
+
+setTimeout(updatePreview, 300);
+</script>
+
+{% endblock %}

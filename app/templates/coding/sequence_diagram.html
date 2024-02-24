@@ -1,0 +1,204 @@
+
+
+<script src="{{ url_for('static',filename='sequence-diagram/js/webfont.js')}}" ></script>
+<script src="{{ url_for('static',filename='sequence-diagram/js/snap.svg-min.js')}}" ></script>
+<script src="{{ url_for('static',filename='sequence-diagram/js/underscore-min.js')}}" ></script>
+<script src="{{ url_for('static',filename='sequence-diagram/js/sequence-diagram-snap-min.js')}}" ></script>
+<script src="{{ url_for('static',filename='sequence-diagram/js/svginnerhtml.min.js')}}" ></script>
+<script src="{{ url_for('static',filename='sequence-diagram/js/jquery.min.js')}}" ></script>
+
+<!-- Needed for the text editor -->
+<script src="{{ url_for('static',filename='sequence-diagram/js/ace.js')}}" type="text/javascript" charset="utf-8"></script>
+
+<link href="{{ url_for('static',filename='codemirror/css/codemirror.min.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='codemirror/lib/codemirror.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/css/javascript.js')}}" ></script>
+<script src="{{ url_for('static',filename='codemirror/css/jquery.min.js')}}" ></script>
+
+
+<link href="{{ url_for('static',filename='zTree/css/zTreeStyle/zTreeStyle.css')}}" rel="stylesheet" />
+<script src="{{ url_for('static',filename='zTree/js/jquery-1.4.4.min.js')}}" ></script>
+<script src="{{ url_for('static',filename='zTree/js/jquery.ztree.core.js')}}" ></script>
+
+
+<style>
+  body { font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
+  #editor {
+      position: relative;
+      float: left;
+      width: 40%;
+      height: 550px;
+      border: 1px solid black;
+  }
+  #diagram {
+      position: relative;
+      float: left;
+      width: 59%;
+      height: 550px;
+      border: 1px solid black;
+  }
+</style>
+
+<SCRIPT type="text/javascript">
+  <!--
+  var setting = {
+    data: {
+      simpleData: {
+        enable: true
+      }
+    }
+  };
+
+  var zNodes =[
+    { id:1, pId:0, name:"xiaojia2", open:true},
+
+    { id:51, pId:1, name:"__init__py",open:true},
+
+
+    { id:11, pId:1, name:"modles",open:true},
+    { id:111, pId:11, name:"叶子节点111"},
+    { id:112, pId:11, name:"叶子节点112"},
+    { id:113, pId:11, name:"叶子节点113"},
+    { id:114, pId:11, name:"叶子节点114"},
+    { id:12, pId:1, name:"views",open:true},
+    { id:121, pId:12, name:"叶子节点121"},
+    { id:122, pId:12, name:"叶子节点122"},
+    { id:123, pId:12, name:"叶子节点123"},
+    { id:124, pId:12, name:"叶子节点124"},
+    { id:13, pId:1, name:"router",open:true},
+    { id:321, pId:13, name:"叶子节点121"},
+    { id:322, pId:13, name:"叶子节点122"},
+    { id:323, pId:13, name:"叶子节点123"},
+    { id:324, pId:13, name:"叶子节点124"},
+
+    
+    { id:213, pId:0, name:"server.py",  open:true}
+  ];
+
+  $(document).ready(function(){
+    $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+  });
+		//-->
+</SCRIPT>
+<div style="margin:0 auto">
+  <center>
+    <h2>序列图</h2>
+  </center>
+
+<div>
+  <div id="editor">用户->浏览器: 在地址栏目填写地址
+浏览器->服务器(app): 发送请求
+服务器(app)->路由类: 调用
+路由类->>数据库帮助类: 调用
+数据库帮助类->>数据模型类: 映射、使用
+数据模型类-->>数据库帮助类: 返回值
+数据库帮助类->>数据库: 查询、建立
+数据库-->>数据库帮助类: 返回数据
+数据库帮助类-->>路由类: 返回值
+路由类-->>服务器(app): return 数据
+服务器(app)-->>浏览器: 返回请求
+浏览器-->用户: 显示信息，用户看到
+  </div>
+    <div id="diagram"></div>
+  </div>
+</div>
+<br/>
+<hr/>
+<div>
+  <div style="width:30%;float:left;border:1px solid green;height:400px;margin-top: 10px;margin-bottom: 10px;">
+    <label>文件夹</label>
+    <div class="zTreeDemoBackground left">
+      <ul id="treeDemo" class="ztree"></ul>
+    </div>
+  </div>
+  <div style="width:34%;float:left;border:1px solid green;height:400px;margin-top: 10px;margin-bottom: 10px;">
+    <label>编辑器</label>
+<textarea id="code" name="code"><h1>Test!</h1>
+</textarea>
+  </div>
+  <div style="width:35%;float:left;border:1px solid green;height:400px;margin-top: 10px;margin-bottom: 10px;">
+    <label>浏览地址：</label><input type="text" value="http://localhost:5000/"/><button>访问</button>
+
+    <iframe id="preview" width="97%" height="90%"></iframe>
+  </div>
+
+  <div style="width:100%;float:left;border:1px solid green;height:80px;margin-top: 10px;margin-bottom: 10px;">
+
+  </div>
+</div>
+
+
+<script>
+    var options = {
+      theme: 'simple',
+      scale: 1
+    };
+
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/crimson_editor");
+    editor.setFontSize(20);
+    editor.getSession().setMode("ace/mode/asciidoc");
+
+    var diagram = Diagram.parse(editor.getValue(), options)
+    diagram.drawSVG("diagram", {theme: 'simple'});
+
+    editor.getSession().on('change', _.debounce(on_change, 100));
+
+    function on_change() {
+      try {
+            var diagram = Diagram.parse(editor.getValue());
+
+            editor.getSession().setAnnotations([]);
+
+            // Clear out old diagram
+            $('#diagram').html('');
+
+            // Draw
+            diagram.drawSVG("diagram", options);
+
+          } catch(err) {
+            var annotation = {
+              type: "error", // also warning and information
+              column: 0,
+              row: 0,
+              text: err.message
+            };
+            if (err instanceof Diagram.ParseError) {
+              annotation.row    = err.loc.first_line - 1;
+              annotation.column = err.loc.first_column;
+            }
+            editor.getSession().setAnnotations([annotation]);
+            throw err;
+         }
+    }
+
+</script>
+<script>
+  var delay;
+  // // Initialize CodeMirror editor with a nice html5 canvas demo.
+  var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+    mode: 'text/html',
+    styleActiveLine: true,    //高亮
+    lineNumbers: true,      //显示行号  
+    lineWrapping: true, //是否代码折叠
+    extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+    smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+    autoCloseTags: true,//自动闭合标签
+    autoCloseBrackets: true,//自动闭合括号
+    matchBrackets: true,//括号匹配
+  });
+  editor.on("change", function() {
+    clearTimeout(delay);
+    delay = setTimeout(updatePreview, 300);
+  });
+  
+  function updatePreview() {
+    var previewFrame = document.getElementById('preview');
+    var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+    preview.open();
+    preview.write(editor.getValue());
+    preview.close();
+  }
+  setTimeout(updatePreview, 300)
+</script>
+

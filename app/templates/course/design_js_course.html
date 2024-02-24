@@ -1,0 +1,335 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Demo</title>
+  <!-- 请勿在项目正式环境中引用该 layui.css 地址 -->
+  <link href="http://unpkg.com/layui@2.9.3/dist/css/layui.css" rel="stylesheet">
+
+  <script src="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.js"></script>
+  <link href="https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/codemirror.min.css" rel="stylesheet">
+  
+  
+  <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/xml/xml.js></script>
+  <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/javascript/javascript.js></script>
+  <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/css/css.js></script>
+  <script src=https://cdn.bootcdn.net/ajax/libs/codemirror/6.65.7/mode/htmlmixed/htmlmixed.js></script>
+  
+  <style type=text/css>
+    .CodeMirror {
+      
+      width: 100%;
+      border: 1px solid black;
+      height:368px;
+    }
+    iframe {
+      width: 99%;
+
+      height:368px;
+      border: 1px solid black;
+      border-left: 0px;
+    }
+    .ztree-wrap {width:160px; height:460px; overflow:auto;}
+  </style>
+  <link href="{{ url_for('static',filename='zTree/css/zTreeStyle/zTreeStyle.css')}}" rel="stylesheet" />
+  <script src="{{ url_for('static',filename='zTree/js/jquery-1.4.4.min.js')}}" ></script>
+  <script src="{{ url_for('static',filename='zTree/js/jquery.ztree.core.js')}}" ></script>
+
+
+	<SCRIPT type="text/javascript">
+		<!--
+		var setting = {
+			data: {
+				simpleData: {
+					enable: true
+				}
+			}
+		};
+
+		var zNodes =[
+			{ id:1, pId:0, name:"父节点1 - 展开", open:true},
+			{ id:11, pId:1, name:"父节点11 - 折叠"},
+			{ id:111, pId:11, name:"叶子节点111"},
+			{ id:112, pId:11, name:"叶子节点112"},
+			{ id:113, pId:11, name:"叶子节点113"},
+			{ id:114, pId:11, name:"叶子节点114"},
+			{ id:12, pId:1, name:"父节点12 - 折叠"},
+			{ id:121, pId:12, name:"叶子节点121"},
+			{ id:122, pId:12, name:"叶子节点122"},
+			{ id:123, pId:12, name:"叶子节点123"},
+			{ id:124, pId:12, name:"叶子节点124"},
+			{ id:13, pId:1, name:"父节点13 - 没有子节点",  open:true},
+			{ id:2, pId:0, name:"父节点2 - 折叠"},
+			{ id:21, pId:2, name:"父节点21 - 展开", open:true},
+			{ id:211, pId:21, name:"叶子节点211"},
+			{ id:212, pId:21, name:"叶子节点212"},
+			{ id:213, pId:21, name:"叶子节点213"},
+			{ id:214, pId:21, name:"叶子节点214"},
+			{ id:22, pId:2, name:"父节点22 - 折叠"},
+			{ id:221, pId:22, name:"叶子节点221"},
+			{ id:222, pId:22, name:"叶子节点222"},
+			{ id:223, pId:22, name:"叶子节点223"},
+			{ id:224, pId:22, name:"叶子节点224"},
+			{ id:23, pId:2, name:"父节点23 - 折叠"},
+			{ id:231, pId:23, name:"叶子节点231"},
+			{ id:232, pId:23, name:"叶子节点232"},
+			{ id:233, pId:23, name:"叶子节点233"},
+			{ id:234, pId:23, name:"叶子节点234"},
+			{ id:3, pId:0, name:"父节点3 - 没有子节点", isParent:true}
+		];
+
+		$(document).ready(function(){
+			$.fn.zTree.init($("#treeDemo"), setting, zNodes);
+		});
+		//-->
+	</SCRIPT>
+</head>
+<body>
+  <ul class="layui-nav layui-bg-green" lay-filter="">
+    <li class="layui-nav-item"><a href="/">首页</a></li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">课程开发</a>
+      <dl class="layui-nav-child"> <!-- 二级菜单 -->
+        <dd><a href="/course/js">js课程开发</a></dd>
+        <dd><a href="/course/py">python课程开发</a></dd>
+        <dd><a href="/course/rust">rust课程开发</a></dd>
+      </dl>
+    </li>
+    <li class="layui-nav-item">
+      <a href="javascript:;">乌龟课程开发</a>
+      <dl class="layui-nav-child"> <!-- 二级菜单 -->
+        <dd><a href="/course/js_turtle">js课程开发</a></dd>
+        <dd><a href="/course/py_turtle">python课程开发</a></dd>
+      </dl>
+    </li>        
+      <li class="layui-nav-item layui-this"><a href="#">开发策略</a></li>
+      <li class="layui-nav-item"><a href="/news">知识图谱</a></li>
+    
+    <li class="layui-nav-item"><a href="">社区</a></li>
+  </ul>
+
+  <div class="layui-row" style="border:1px green solid;width:98%;margin: auto;margin-top: 10px;">
+  <div style="float:right">
+    <button class="layui-btn" onclick="getCheckedNodes()">获取选中节点</button>
+    <button class="layui-btn" onclick="getCheckedNodes()">获取选中节点</button>
+    
+    <button class="layui-btn" onclick="getCheckedNodes()">获取选中节点</button>
+    <button class="layui-btn" onclick="getCheckedNodes()">保存</button>
+  </div>
+
+  </div>
+
+<div class="layui-row" style="border:1px green solid;height:150px;width:98%;margin: auto;margin-top: 5px;">
+  <div class="layui-col-md4">  
+    <div class="zTreeDemoBackground left">
+      <ul id="treeDemo" class="ztree"></ul>
+    </div>
+  </div>
+  <div class="layui-col-md8" style="border:1px green solid;height:150px;">
+    <form class="layui-form" action="">
+      <div class="layui-form-item">
+        <label class="layui-form-label">输入框</label>
+        <div class="layui-input-block">
+          <input type="text" name="title" required  lay-verify="required" placeholder="请输入标题" autocomplete="off" class="layui-input">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">密码框</label>
+        <div class="layui-input-inline">
+          <input type="password" name="password" required lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input">
+        </div>
+        <div class="layui-form-mid layui-word-aux">辅助文字</div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">选择框</label>
+        <div class="layui-input-block">
+          <select name="city" lay-verify="required">
+            <option value=""></option>
+            <option value="0">北京</option>
+            <option value="1">上海</option>
+            <option value="2">广州</option>
+            <option value="3">深圳</option>
+            <option value="4">杭州</option>
+          </select>
+        </div>
+      </div>
+      <!-- <div class="layui-form-item">
+        <label class="layui-form-label">复选框</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="like[write]" title="写作">
+          <input type="checkbox" name="like[read]" title="阅读" checked>
+          <input type="checkbox" name="like[dai]" title="发呆">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">开关</label>
+        <div class="layui-input-block">
+          <input type="checkbox" name="switch" lay-skin="switch">
+        </div>
+      </div>
+      <div class="layui-form-item">
+        <label class="layui-form-label">单选框</label>
+        <div class="layui-input-block">
+          <input type="radio" name="sex" value="男" title="男">
+          <input type="radio" name="sex" value="女" title="女" checked>
+        </div>
+      </div> -->
+
+
+    </form>
+  </div>
+</div>
+
+<div class="layui-row" style="width:98%;margin: auto;">
+    <div class="layui-col-md4">
+        <div class="grid-demo grid-demo-bg1 layui-bg-green">
+            <div class="layui-tab" lay-filter="test-hash">
+                <ul class="layui-tab-title">
+                  <li class="layui-this" lay-id="11">学习目标</li>
+                  <li lay-id="22">内容讲解</li>
+                  <li lay-id="33">代码示范</li>
+                  <li lay-id="44">课堂练习</li>
+                  <li lay-id="44">迁移练习</li>
+
+                </ul>
+                <div class="layui-tab-content" style="height:300px;">
+                  <div class="layui-tab-item layui-show">
+                    <div style="padding-left: 10px;padding-right: 10px;">
+                      <textarea name="desc" placeholder="学习目标" class="layui-textarea" rows="14"></textarea>      
+                    </div>
+                  </div>
+                  <div class="layui-tab-item">
+                    <div style="padding-left: 10px;padding-right: 10px;">
+                      <textarea name="desc" placeholder="内容讲解" class="layui-textarea" rows="14"></textarea>      
+                    </div>
+                  </div>
+                  <div class="layui-tab-item">
+                    <div style="padding-left: 10px;padding-right: 10px;">
+                      <textarea name="desc" placeholder="代码示范" class="layui-textarea" rows="14"></textarea>      
+                    </div>
+                  </div>
+                  <div class="layui-tab-item">
+
+                    <div style="padding-left: 10px;padding-right: 10px;">
+                      <textarea name="desc" placeholder="课后练习" class="layui-textarea" rows="14"></textarea>      
+                    </div>              
+                  </div>
+                  <div class="layui-tab-item">
+
+                    <div style="padding-left: 10px;padding-right: 10px;">
+                      <textarea name="desc" placeholder="迁移练习" class="layui-textarea" rows="14"></textarea>      
+                    </div>              
+                  </div>
+
+                </div>
+              </div>
+
+        </div>
+    </div>
+    <div class="layui-col-md4">
+        <div class="grid-demo" style="padding-top: 10px">
+
+<textarea id=code name=code>
+<!doctype html>
+<html>
+<head>
+<meta charset=utf-8>
+<title>HTML5 canvas demo</title>
+<style>p {font-family: monospace;}</style>
+</head>
+<body>
+<p>Canvas pane goes here:</p>
+<canvas id=pane width=300 height=200></canvas>
+<script>
+    var canvas = document.getElementById('pane');
+    var context = canvas.getContext('2d');
+
+    context.fillStyle = 'rgb(250,0,0)';
+    context.fillRect(10, 10, 55, 50);
+
+    context.fillStyle = 'rgba(0, 0, 250, 0.5)';
+    context.fillRect(30, 30, 55, 50);
+</script>
+</body>
+</html>
+</textarea>
+        </div>
+    </div>
+    <div class="layui-col-md4">
+        <div class="grid-demo grid-demo-bg1" style="padding-top: 10px">
+            <iframe id=preview></iframe>
+        </div>
+    </div>
+    </div>
+
+    <script>
+        var delay;
+        // Initialize CodeMirror editor with a nice html5 canvas demo.
+        var editor = CodeMirror.fromTextArea(document.getElementById('code'), {
+          mode: 'text/html',
+          styleActiveLine: true,    //高亮
+          lineNumbers: true,      //显示行号  
+          lineWrapping: true, //是否代码折叠
+          extraKeys: {"Ctrl-Space": "autocomplete"},//智能提示
+          smartIndent: true,//自动缩进，设置是否根据上下文自动缩进,默认为true
+          autoCloseTags: true,//自动闭合标签
+          autoCloseBrackets: true,//自动闭合括号
+          matchBrackets: true,//括号匹配
+        });
+        editor.on("change", function() {
+          clearTimeout(delay);
+          delay = setTimeout(updatePreview, 300);
+        });
+        
+        function updatePreview() {
+          var previewFrame = document.getElementById('preview');
+          var preview =  previewFrame.contentDocument ||  previewFrame.contentWindow.document;
+          preview.open();
+          preview.write(editor.getValue());
+          preview.close();
+          getConsole() 
+        }
+        setTimeout(updatePreview, 300);
+  
+      function getConsole() {
+          var code = editor.getValue();
+          const originalLog = console.log;
+          console.log = function (...value) {
+          originalLog.apply(console, value);
+          return value;
+          };
+          const response = eval(code);
+          //alert(response)
+          log = document.getElementById("log");
+          
+          log.innerHTML = response;
+      }
+  
+  
+      </script>
+  
+<!-- 请勿在项目正式环境中引用该 layui.js 地址 -->
+<script src="http://unpkg.com/layui@2.9.3/dist/layui.js"></script>
+<script>
+layui.use(function(){
+  var element = layui.element;
+  
+  // hash 地址定位
+  var hashName = 'tabid'; // hash 名称
+  var layid = location.hash.replace(new RegExp('^#'+ hashName + '='), ''); // 获取 lay-id 值
+    
+  // 初始切换
+  element.tabChange('test-hash', layid);
+  // 切换事件
+  element.on('tab(test-hash)', function(obj){
+    location.hash = hashName +'='+ this.getAttribute('lay-id');
+    alert(this.getAttribute('lay-id'))
+  });
+});
+</script>
+
+</body>
+</html>

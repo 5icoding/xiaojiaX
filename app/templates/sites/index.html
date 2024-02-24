@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<style>
+
+    #content {
+      font-family: Arial, sans-serif;
+
+      background-color: #f8f8f8;
+      text-align: center;
+      width:60%;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+      margin-bottom: 20px;
+    }
+
+    h1, h2 {
+      color: #333;
+      text-align: center;
+    }
+
+    p {
+      color: #555;
+      text-align: center;
+    }
+
+    ol {
+      text-align: left;
+    }
+  </style>
+{% endblock %}
+
+
+{% block content %}
+
+
+
+<div style="padding-top: 30px;">
+    <!-- <h1>Index</h1>
+    <button type="button" class="layui-btn layui-btn-danger">一个标准的按钮</button> -->
+
+    <h1>欢迎来到 xiaojiaX - AI编程游戏平台</h1>
+    <div style="padding-bottom: 30px;"></div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md4">
+          <div class="layui-panel">
+            <div style="padding: 30px;height: 300px;">
+                <h2>为什么选择 xiaojiaX</h2>
+  
+                <ol>
+                <li><strong>游戏化学习体验：</strong>我们的平台融合了游戏和编程，使学习过程更加有趣。通过完成挑战和任务，用户将能够逐步提高他们的编程能力。</li>
+                <li><strong>实时反馈：</strong>我们提供实时反馈机制，帮助用户理解他们的代码在运行时的表现。这种即时的反馈可以帮助用户更快地发现和纠正错误，加速学习过程。</li>
+                <li><strong>全面的AI编程内容：</strong>无论您是初学者还是经验丰富的开发人员，我们的平台都提供了全面的AI编程内容。从基础的算法到深度学习，我们涵盖了各个层次和方面。</li>
+                <li><strong>社区支持：</strong>xiaojiaX拥有一个充满活力的社区，成员可以相互交流经验、分享技巧，并一同解决编程难题。我们相信共同学习和合作是最好的提升方式。</li>
+                </ol>
+            
+            </div>
+          </div>   
+        </div>
+        <div class="layui-col-md4">
+          <div class="layui-panel">
+            <div style="padding: 30px;height: 300px;">
+                <h2>如何开始？</h2>
+  
+                <ol>
+                <li><strong>注册账号：</strong>在 xiaojiaX 注册账号，开启您的编程之旅。</li>
+                <li><strong>选择挑战：</strong>浏览我们丰富的挑战库，选择符合您兴趣和水平的项目。</li>
+                <li><strong>编写代码：</strong>使用我们的在线编程环境，开始编写您的代码，并通过挑战。</li>
+                <li><strong>学习进步：</strong>查看实时反馈，了解您的代码执行情况，并根据经验不断改进。</li>
+                </ol>
+            </div>
+          </div>   
+        </div>
+        <div class="layui-col-md4">
+            <div class="layui-panel">
+              <div style="padding: 30px; height: 300px;">
+                <img src="{{ url_for('static',filename='logo.png')}}" alt="xiaojiaX Logo">
+
+                <p>加入 xiaojiaX，让编程不再枯燥，而是一场充满挑战和乐趣的冒险！</p>
+            </div>
+            </div>   
+          </div>
+      </div>       
+</div>
+
+
+
+{% endblock %}
